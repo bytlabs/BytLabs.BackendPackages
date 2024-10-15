@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="8.0.10" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+		<PackageReference Include="OpenTelemetry.Api" Version="1.9.0" />
+		<PackageReference Include="Serilog" Version="4.0.2" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\BytLabs.Core\BytLabs.Application\BytLabs.Application.csproj" />
+		<ProjectReference Include="..\..\BytLabs.Multitenancy\BytLabs.Multitenancy\BytLabs.Multitenancy.csproj" />
+		<ProjectReference Include="..\..\BytLabs.Observability\BytLabs.Observability\BytLabs.Observability.csproj" />
+	</ItemGroup>
+
+</Project>

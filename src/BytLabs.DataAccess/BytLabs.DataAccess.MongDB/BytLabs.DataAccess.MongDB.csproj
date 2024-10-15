@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MongoDB.Driver" Version="2.29.0" />
+		<PackageReference Include="Humanizer.Core" Version="2.14.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\BytLabs.Multitenancy\BytLabs.Multitenancy\BytLabs.Multitenancy.csproj" />
+		<ProjectReference Include="..\BytLabs.DataAccess\BytLabs.DataAccess.csproj" />
+	</ItemGroup>
+
+</Project>

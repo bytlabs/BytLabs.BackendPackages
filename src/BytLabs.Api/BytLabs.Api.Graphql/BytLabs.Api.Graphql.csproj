@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
+		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
+		<PackageReference Include="HotChocolate.Data" Version="13.9.0" />
+		<PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.0" />
+		<PackageReference Include="HotChocolate.Types.Mutations" Version="13.9.0" />
+		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="7.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\BytLabs.Core\BytLabs.Application\BytLabs.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Error\Types\" />
+	</ItemGroup>
+
+</Project>

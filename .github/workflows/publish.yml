@@ -1,0 +1,154 @@
+name: Publish NuGet Packages and Deploy Docs
+
+permissions:
+  actions: read
+  pages: write
+  packages: write
+  id-token: write
+  contents: read
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - "feature/*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore NuGet packages
+        run: dotnet restore ./BytLabs.BackendPackages.sln
+
+      - name: Run tests
+        run: dotnet test ./BytLabs.BackendPackages.sln --configuration Release --no-restore
+
+  build-and-publish:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0'
+
+      - name: Update Version in Directory.Build.props
+        id: set-version
+        run: |
+          BASE_VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Directory.Build.props)
+
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            if [[ "${{ github.ref_name }}" == "develop" ]]; then
+              BUILD_VERSION="${BASE_VERSION}-alpha.${{ github.run_number }}"
+            elif [[ "${{ github.ref_name }}" =~ ^feature/ ]]; then
+              BUILD_VERSION="${BASE_VERSION}-alpha.${{ github.run_number }}"
+            else
+              echo "Unknown branch for alpha versioning: ${{ github.ref_name }}"
+              exit 1
+            fi
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_VERSION="${BASE_VERSION}"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            BUILD_VERSION="${BASE_VERSION}-alpha.${{ github.run_number }}"
+          else
+            echo "Unknown context for versioning: ${{ github.event_name }}"
+            exit 1
+          fi
+          # Update the Version property in Directory.Build.props
+          sed -i "s|<Version>.*</Version>|<Version>${BUILD_VERSION}</Version>|" Directory.Build.props
+
+          echo "Updated Directory.Build.props with version: $BUILD_VERSION"
+
+
+      - name: Restore NuGet packages
+        run: dotnet restore ./BytLabs.BackendPackages.sln
+
+      - name: Build and Pack NuGet Packages
+        run: |
+          search_directory="./src"
+          if [ ! -d "$search_directory" ]; then
+              echo "Directory $search_directory does not exist."
+              exit 1
+          fi
+          find "$search_directory" -name "*.csproj" | while IFS= read -r proj; do
+              if [[ "$proj" == *"Test.csproj" ]]; then
+                  echo "Skipping test project: $proj"
+                  continue
+              fi
+              echo "Building and packing project: $proj"
+              dotnet pack "$proj" --configuration Release --output ./nuget-packages
+          done
+
+      - name: Publish NuGet Packages
+        run: |
+          search_directory="./nuget-packages"
+          if [ ! -d "$search_directory" ]; then
+              echo "Directory $search_directory does not exist."
+              exit 1
+          fi
+          find "$search_directory" -name "*.nupkg" | while IFS= read -r pkg; do
+              echo "Pushing package: $pkg"
+              dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+              dotnet nuget push "$pkg" --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+          done
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  publish-docs:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
+
+      - name: Install DocFX
+        run: dotnet tool update -g docfx
+
+      - name: Build Documentation
+        run: docfx docfx.json
+
+      - name: Deploy Alpha Documentation
+        if: github.ref_name == 'develop' || startsWith(github.ref_name, 'feature/')
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          cd gh-pages
+          mkdir -p alpha
+          cp -r ../_site/* alpha/
+          git add alpha/
+          git commit -m "Deploy alpha documentation from ${{ github.ref_name }}"
+          git push
+
+      - name: Deploy Production Documentation
+        if: startsWith(github.ref_name, 'release/')
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
+          cd gh-pages
+          cp -r ../_site/* .
+          git add .
+          git commit -m "Deploy production documentation from ${{ github.ref_name }}"
+          git push
