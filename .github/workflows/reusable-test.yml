@@ -1,0 +1,22 @@
+name: Reusable Test Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore NuGet packages
+        run: dotnet restore ./BytLabs.BackendPackages.sln
+
+      - name: Run tests
+        run: dotnet test ./BytLabs.BackendPackages.sln --configuration Release --no-restore

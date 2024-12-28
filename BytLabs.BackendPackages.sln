@@ -50,7 +50,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{32185F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BA339005-7102-44C0-8356-9DFD55C495F7}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\publish-docs.yml = .github\workflows\publish-docs.yml
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
+		.github\workflows\reusable-test.yml = .github\workflows\reusable-test.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{B0F5F6C3-5285-409D-B186-D14D5D551425}"
