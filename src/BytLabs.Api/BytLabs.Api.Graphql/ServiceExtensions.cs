@@ -12,7 +12,7 @@ namespace BytLabs.Api.Graphql
         /// <param name="serviceCollection"></param>
         /// <param name="schemaName"></param>
         /// <returns></returns>
-        public static IRequestExecutorBuilder AddGraphQL(
+        public static IRequestExecutorBuilder AddGraphQLService(
             this IServiceCollection serviceCollection,
             string? schemaName = null)
         {
