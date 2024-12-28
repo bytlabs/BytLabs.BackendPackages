@@ -10,9 +10,7 @@ on:
     types: [published]
   push:
     branches:
-      - develop
-      - main
-      - "feature/*"
+      - "feature/**/*"
 
 jobs:
   test:
@@ -36,9 +34,7 @@ jobs:
           BASE_VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Directory.Build.props)
 
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            if [[ "${{ github.ref_name }}" == "develop" ]]; then
-              BUILD_VERSION="${BASE_VERSION}-alpha.${{ github.run_number }}"
-            elif [[ "${{ github.ref_name }}" =~ ^feature/ ]]; then
+            if [[ "${{ github.ref_name }}" =~ ^feature/ ]]; then
               BUILD_VERSION="${BASE_VERSION}-alpha.${{ github.run_number }}"
             else
               echo "Unknown branch for alpha versioning: ${{ github.ref_name }}"
