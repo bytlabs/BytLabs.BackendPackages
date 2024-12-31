@@ -1,4 +1,5 @@
 using BytLabs.Multitenancy;
+using BytLabs.Multitenancy.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Context;
@@ -18,13 +19,20 @@ public static class TenantIdEnricher
     /// <param name="app">The web application to add the enricher to.</param>
     /// <returns>The web application with the tenant ID enricher configured.</returns>
     public static void EnrichLoggerWithTenantId(this WebApplication app) =>
-        app.Use(async (context, next) =>
-        {
-            var provider = context.RequestServices.GetService<ITenantIdProvider>();
-            var tenantId = provider?.GetTenantId().Value;
-            using (LogContext.PushProperty(TenantIdPropertyName, tenantId))
-            {
-                await next.Invoke();
-            }
-        });
+         app.Use(async (context, next) =>
+         {
+             try
+             {
+                 var provider = context.RequestServices.GetService<ITenantIdProvider>();
+                 var tenantId = provider?.GetTenantId().Value;
+                 using (LogContext.PushProperty(TenantIdPropertyName, tenantId))
+                 {
+                     await next.Invoke();
+                 }
+             }
+             catch (FailedToResolveTenantIdException)
+             {
+                 await next.Invoke();
+             }
+         });
 }

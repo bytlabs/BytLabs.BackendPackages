@@ -30,7 +30,7 @@ namespace BytLabs.Multitenancy
         /// Gets the current tenant identifier by trying each resolver in sequence.
         /// </summary>
         /// <returns>The resolved tenant identifier.</returns>
-        /// <exception cref="FailedToResolveTenantId">Thrown when no resolver can identify the tenant.</exception>
+        /// <exception cref="FailedToResolveTenantIdException">Thrown when no resolver can identify the tenant.</exception>
         public TenantId GetTenantId()
         {
             foreach (var resolver in _resolvers)
@@ -49,7 +49,7 @@ namespace BytLabs.Multitenancy
                 }
             }
 
-            throw new FailedToResolveTenantId("Unable to resolve TenantId with given resolvers.");
+            throw new FailedToResolveTenantIdException("Unable to resolve TenantId with given resolvers.");
         }
     }
 }
