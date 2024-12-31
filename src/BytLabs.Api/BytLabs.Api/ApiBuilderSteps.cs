@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BytLabs.Application.UserContext;
+using BytLabs.Multitenancy;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Serilog;
 
 namespace BytLabs.Api
 {
@@ -19,7 +22,7 @@ namespace BytLabs.Api
             /// Configures HTTP context accessor services.
             /// </summary>
             /// <returns>The next configuration step for multi-tenant setup.</returns>
-            IMultiTenantStep WithHttpContextAccessor();
+            IMultiTenantStep WithHttpContextAccessor(Action<UserContextBuilder>? configureUserContext = null);
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace BytLabs.Api
             /// Configures multi-tenant context services.
             /// </summary>
             /// <returns>The next configuration step for authentication setup.</returns>
-            ILoggingStep WithMultiTenantContext();
+            ILoggingStep WithMultiTenantContext(Action<MultitenancyBuilder>? configureMultitenancy = null);
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace BytLabs.Api
             /// Configures logging services.
             /// </summary>
             /// <returns>The next configuration step for metrics setup.</returns>
-            IMetricsStep WithLogging();
+            IMetricsStep WithLogging(Action<LoggerConfiguration>? loggerConfiguration = null);
         }
 
         /// <summary>
