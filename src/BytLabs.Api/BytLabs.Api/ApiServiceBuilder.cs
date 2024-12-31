@@ -24,7 +24,6 @@ namespace BytLabs.Api
     public class ApiServiceBuilder :
         IInitialStep,
         IMultiTenantStep,
-        IAuthenticationStep,
         IMetricsStep,
         ITracingStep,
         IHealthCheckStep,
@@ -70,22 +69,12 @@ namespace BytLabs.Api
         /// Configures multi-tenant context and tenant resolution.
         /// </summary>
         /// <returns>The next configuration step for authentication setup.</returns>
-        public IAuthenticationStep WithMultiTenantContext()
+        public ILoggingStep WithMultiTenantContext()
         {
             _webApplicationBuilder.Services
                 .AddMultitenancy()
                 .AddResolver<FromHeaderTenantIdResolver>();
 
-            return this;
-        }
-
-        /// <summary>
-        /// Configures authentication services.
-        /// </summary>
-        /// <returns>The next configuration step for logging setup.</returns>
-        public ILoggingStep WithAuthentication()
-        {
-            //TODO Add Auth
             return this;
         }
 
@@ -162,8 +151,6 @@ namespace BytLabs.Api
 
             if (app.Environment.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-
-            app.UseAuthentication();
 
             appConfig?.Invoke(app);
 

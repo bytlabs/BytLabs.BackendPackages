@@ -6,7 +6,7 @@ namespace BytLabs.Api.Graphql.Observability
     /// <summary>
     /// Provides extension methods for configuring observability features in the GraphQL pipeline.
     /// </summary>
-    public static class ObservabilityDependencyInjectionExtensions
+    internal static class ObservabilityDependencyInjectionExtensions
     {
         /// <summary>
         /// Adds observability features to the GraphQL request executor.
@@ -18,7 +18,7 @@ namespace BytLabs.Api.Graphql.Observability
         /// - Error logging through <see cref="ErrorLoggingDiagnosticsEventListener"/>
         /// - Global error filtering through <see cref="GlobalErrorFilter"/>
         /// </remarks>
-        public static IRequestExecutorBuilder AddObservability(this IRequestExecutorBuilder requestExecutorBuilder)
+        internal static IRequestExecutorBuilder AddObservability(this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
                 .AddDiagnosticEventListener<ErrorLoggingDiagnosticsEventListener>()
