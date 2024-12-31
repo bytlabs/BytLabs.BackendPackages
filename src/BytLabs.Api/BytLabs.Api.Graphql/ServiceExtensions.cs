@@ -30,7 +30,7 @@ namespace BytLabs.Api.Graphql
         /// </summary>
         /// <param name="requestExecutorBuilder"></param>
         /// <returns></returns>
-        public static IRequestExecutorBuilder AddBytLabsDefaults(
+        internal static IRequestExecutorBuilder AddBytLabsDefaults(
             this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
@@ -41,7 +41,7 @@ namespace BytLabs.Api.Graphql
                 .AddAuthorization();
         }
 
-        public static IRequestExecutorBuilder AddMutationConventions(
+        internal static IRequestExecutorBuilder AddMutationConventions(
             this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
@@ -57,7 +57,7 @@ namespace BytLabs.Api.Graphql
                 ;
         }
 
-        public static IRequestExecutorBuilder AddDefaultRuntimeTypeMappings(
+        internal static IRequestExecutorBuilder AddDefaultRuntimeTypeMappings(
             this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
@@ -65,13 +65,13 @@ namespace BytLabs.Api.Graphql
                 .BindRuntimeType<ulong, StringType>();
         }
 
-        public static IRequestExecutorBuilder AddQuerySettings(
+        internal static IRequestExecutorBuilder AddQuerySettings(
             this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
-                .SetPagingOptions(new()
+                .ModifyPagingOptions(config=>
                 {
-                    MaxPageSize = 50
+                    config.MaxPageSize = 50;
                 })
                 .AddProjections()
                 .AddFiltering()

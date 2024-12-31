@@ -31,19 +31,7 @@ namespace BytLabs.Api
             /// Configures multi-tenant context services.
             /// </summary>
             /// <returns>The next configuration step for authentication setup.</returns>
-            IAuthenticationStep WithMultiTenantContext();
-        }
-
-        /// <summary>
-        /// Configuration step for authentication setup.
-        /// </summary>
-        public interface IAuthenticationStep
-        {
-            /// <summary>
-            /// Configures authentication services.
-            /// </summary>
-            /// <returns>The next configuration step for logging setup.</returns>
-            ILoggingStep WithAuthentication();
+            ILoggingStep WithMultiTenantContext();
         }
 
         /// <summary>
