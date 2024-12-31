@@ -17,7 +17,7 @@ namespace BytLabs.Api.Graphql
             string? schemaName = null)
         {
             return serviceCollection
-                .AddGraphQLServer(schemaName)
+                .AddGraphQL(schemaName)
                 .AddBytLabsDefaults()
                 .AddQueryType()
                 .AddMutationType()
