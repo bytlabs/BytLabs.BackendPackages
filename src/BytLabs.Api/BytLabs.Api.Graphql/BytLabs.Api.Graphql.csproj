@@ -4,14 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<HotChocolatePackageVersion>14.3.0</HotChocolatePackageVersion>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
-		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
-		<PackageReference Include="HotChocolate.Data" Version="13.9.0" />
-		<PackageReference Include="HotChocolate.Types.Analyzers" Version="13.9.0" />
-		<PackageReference Include="HotChocolate.Types.Mutations" Version="13.9.0" />
+		<PackageReference Include="HotChocolate.AspNetCore" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Data" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Types.Analyzers" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Types.Mutations" Version="$(HotChocolatePackageVersion)" />
 		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="7.0.13" />
 	</ItemGroup>
 
