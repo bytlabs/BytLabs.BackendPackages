@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Context;
 
-namespace BytLabs.Observability.Enrichers;
+namespace BytLabs.Observability.Middlewares;
 
 /// <summary>
 /// Provides extension methods for enriching logs with tenant ID information.
 /// </summary>
-public static class TenantIdEnricher
+public static class TenantIdEnricherMiddleware
 {
     private const string TenantIdPropertyName = "TenantId";
 
@@ -18,7 +18,7 @@ public static class TenantIdEnricher
     /// </summary>
     /// <param name="app">The web application to add the enricher to.</param>
     /// <returns>The web application with the tenant ID enricher configured.</returns>
-    public static void EnrichLoggerWithTenantId(this WebApplication app) =>
+    public static IApplicationBuilder UseLoggerWithTenantId(this IApplicationBuilder app) =>
          app.Use(async (context, next) =>
          {
              try

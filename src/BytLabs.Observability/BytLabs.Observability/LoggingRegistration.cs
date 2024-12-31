@@ -17,7 +17,8 @@ namespace BytLabs.Observability
         /// <param name="observabilityConfiguration">Configuration for observability features.</param>
         /// <returns>The web application builder with logging configured.</returns>
         public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder,
-            ObservabilityConfiguration observabilityConfiguration)
+            ObservabilityConfiguration observabilityConfiguration,
+            Action<LoggerConfiguration>? loggerConfiguration)
         {
             builder.Host
                 .UseSerilog((context, provider, options) =>
@@ -28,6 +29,8 @@ namespace BytLabs.Observability
                         .Enrich.WithSpan()
                         .Enrich.WithProperty("ApplicationName", observabilityConfiguration.ServiceName)
                         .WriteTo.Console();
+
+                    loggerConfiguration?.Invoke(options);
 
                     if (observabilityConfiguration.Logs.OpenTelemetryEnabled)
                     {

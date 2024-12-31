@@ -2,7 +2,6 @@
 using BytLabs.Application;
 using BytLabs.Observability;
 using BytLabs.Observability.HealthChecks;
-using BytLabs.Observability.Enrichers;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using BytLabs.Api.Configuration;
@@ -14,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 
 using static BytLabs.Api.ApiBuilderSteps;
+using BytLabs.Observability.Middlewares;
+using BytLabs.Application.UserContext;
 
 namespace BytLabs.Api
 {
@@ -43,69 +44,79 @@ namespace BytLabs.Api
         }
 
         /// <summary>
-        /// Creates a new instance of the API service builder.
+        /// Creates a new instance of the API service builder with the specified web application builder.
         /// </summary>
-        /// <param name="webApplicationBuilder">The ASP.NET Core web application builder.</param>
-        /// <returns>The initial configuration step.</returns>
+        /// <param name="webApplicationBuilder">The ASP.NET Core web application builder to use for configuration.</param>
+        /// <returns>An initial configuration step to begin the builder chain.</returns>
         public static IInitialStep CreateBuilder(WebApplicationBuilder webApplicationBuilder) =>
             new ApiServiceBuilder(webApplicationBuilder);
 
         /// <summary>
-        /// Configures HTTP context accessor and user context providers.
+        /// Configures HTTP context accessor and user context providers for the application.
+        /// Enables header propagation and sets up user context resolution.
         /// </summary>
+        /// <param name="configureUserContext">Optional action to configure additional user context settings.</param>
         /// <returns>The next configuration step for multi-tenant setup.</returns>
-        public IMultiTenantStep WithHttpContextAccessor()
+        public IMultiTenantStep WithHttpContextAccessor(Action<UserContextBuilder>? configureUserContext = null)
         {
             _webApplicationBuilder.Services
                 .AddHeadersPropagations()
-                .AddHttpContextAccessor()
-                .AddUserContextProviders()
-                    .AddResolver<HttpUserContextResolver>();
+                .AddHttpContextAccessor();
+
+            var userContexBuilder = _webApplicationBuilder.Services
+                .AddUserContextProviders();
+
+            configureUserContext?.Invoke(userContexBuilder);
 
             return this;
         }
 
         /// <summary>
-        /// Configures multi-tenant context and tenant resolution.
+        /// Configures multi-tenant support for the application, enabling tenant resolution and context management.
         /// </summary>
-        /// <returns>The next configuration step for authentication setup.</returns>
-        public ILoggingStep WithMultiTenantContext()
+        /// <param name="configureMultitenancy">Optional action to configure additional multi-tenancy settings.</param>
+        /// <returns>The next configuration step for logging setup.</returns>
+        public ILoggingStep WithMultiTenantContext(Action<MultitenancyBuilder>? configureMultitenancy = null)
         {
-            _webApplicationBuilder.Services
-                .AddMultitenancy()
-                .AddResolver<FromHeaderTenantIdResolver>();
+            var multiTenancyBuilder = _webApplicationBuilder.Services
+                .AddMultitenancy();
+
+            configureMultitenancy?.Invoke (multiTenancyBuilder);
 
             return this;
         }
 
         /// <summary>
-        /// Configures metrics collection and reporting.
+        /// Configures metrics collection and reporting using OpenTelemetry.
+        /// Sets up meter providers and custom metrics based on the application's configuration.
         /// </summary>
-        /// <param name="configureMetrics">Optional action to configure additional metrics options.</param>
+        /// <param name="configureMetrics">Optional action to configure additional metrics options and custom meters.</param>
         /// <returns>The next configuration step for tracing setup.</returns>
         public ITracingStep WithMetrics(Action<MeterProviderBuilder>? configureMetrics = null)
         {
             var config = _webApplicationBuilder.Configuration.GetConfiguration<ObservabilityConfiguration>();
-            _webApplicationBuilder.Services.AddMetrics(config);
+            _webApplicationBuilder.Services.AddMetrics(config, configureMetrics);
             return this;
         }
 
         /// <summary>
-        /// Configures distributed tracing.
+        /// Configures distributed tracing using OpenTelemetry.
+        /// Sets up trace providers and sampling based on the application's configuration.
         /// </summary>
-        /// <param name="configureMetrics">Optional action to configure additional tracing options.</param>
+        /// <param name="configureTracing">Optional action to configure additional tracing options and custom spans.</param>
         /// <returns>The next configuration step for health check setup.</returns>
-        public IHealthCheckStep WithTracing(Action<TracerProviderBuilder>? configureMetrics = null)
+        public IHealthCheckStep WithTracing(Action<TracerProviderBuilder>? configureTracing = null)
         {
             var config = _webApplicationBuilder.Configuration.GetConfiguration<ObservabilityConfiguration>();
-            _webApplicationBuilder.Services.AddTracing(config);
+            _webApplicationBuilder.Services.AddTracing(config, configureTracing);
             return this;
         }
 
         /// <summary>
-        /// Configures health checks for the application.
+        /// Configures health checks for monitoring the application's status and dependencies.
+        /// Adds standard health check endpoints and custom health checks as specified.
         /// </summary>
-        /// <param name="healthCheckBuilder">Optional action to configure additional health checks.</param>
+        /// <param name="healthCheckBuilder">Optional action to configure additional health checks and endpoints.</param>
         /// <returns>The next configuration step for additional service configuration.</returns>
         public IAdditionalConfigurationStep WithHealthChecks(Action<IHealthChecksBuilder>? healthCheckBuilder = null)
         {
@@ -114,20 +125,23 @@ namespace BytLabs.Api
         }
 
         /// <summary>
-        /// Configures logging services.
+        /// Configures logging services using Serilog based on the application's configuration.
+        /// Sets up log sinks, enrichers, and logging levels.
         /// </summary>
+        /// <param name="loggerConfiguration">Optional action to configure additional logging options and sinks.</param>
         /// <returns>The next configuration step for metrics setup.</returns>
-        public IMetricsStep WithLogging()
+        public IMetricsStep WithLogging(Action<LoggerConfiguration>? loggerConfiguration = null)
         {
             var config = _webApplicationBuilder.Configuration.GetConfiguration<ObservabilityConfiguration>();
-            _webApplicationBuilder.AddLogging(config);
+            _webApplicationBuilder.AddLogging(config, loggerConfiguration);
             return this;
         }
 
         /// <summary>
-        /// Allows for additional service configuration.
+        /// Allows for additional service configuration and dependency injection setup.
+        /// Use this method to register custom services or override existing ones.
         /// </summary>
-        /// <param name="serviceCollection">Optional action to configure additional services.</param>
+        /// <param name="serviceCollection">Optional action to configure additional services in the dependency injection container.</param>
         /// <returns>The web application builder for final configuration.</returns>
         public IWebApplicationBuilder WithServiceConfiguration(Action<IServiceCollection>? serviceCollection = null)
         {
@@ -136,10 +150,11 @@ namespace BytLabs.Api
         }
 
         /// <summary>
-        /// Builds and configures the web application with standard middleware.
+        /// Builds and configures the web application with standard middleware components.
+        /// Sets up header propagation, request logging, health checks, and development-specific features.
         /// </summary>
-        /// <param name="appConfig">Optional action to configure additional application options.</param>
-        /// <returns>The configured web application ready to run.</returns>
+        /// <param name="appConfig">Optional action to configure additional middleware or application options.</param>
+        /// <returns>A configured WebApplication instance ready to run.</returns>
         public WebApplication BuildWebApp(Action<WebApplication>? appConfig = null)
         {
             WebApplication app = _webApplicationBuilder.Build();
@@ -147,7 +162,8 @@ namespace BytLabs.Api
             app.UseHeaderPropagation();
             app.UseSerilogRequestLogging();
             app.UseHealthChecks();
-            app.EnrichLoggerWithTenantId();
+            app.UseTraceIdResponseHeader();
+            app.UseLoggerWithTenantId();
 
             if (app.Environment.IsDevelopment())
                 app.UseDeveloperExceptionPage();
