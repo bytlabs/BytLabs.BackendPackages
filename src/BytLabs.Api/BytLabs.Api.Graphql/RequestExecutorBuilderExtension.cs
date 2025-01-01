@@ -1,4 +1,6 @@
 using BytLabs.Api.Graphql.Error.Types;
+using BytLabs.Api.Graphql.Types;
+using BytLabs.Domain.Entities;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +11,12 @@ namespace BytLabs.Api.Graphql
     /// </summary>
     public static class RequestExecutorBuilderExtension
     {
+        public static IRequestExecutorBuilder AddAggregateType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder) where TAggregate : IAggregateRoot<TId>
+        {
+            return requestExecutorBuilder
+                    .AddType<AggregateType<TAggregate, TId>>();
+        }
+
 
         /// <summary>
         /// Adds a command type to the GraphQL schema as an input type.
@@ -34,7 +42,7 @@ namespace BytLabs.Api.Graphql
         /// <remarks>
         /// This method adds the following error types:
         /// - <see cref="BusinessErrorType"/>
-        /// - <see cref="ValidationErrorType"/>
+        /// - <see cref="InputValidationErrorType"/>
         /// - <see cref="FieldErrorType"/>
         /// Note: This should not be used in combination with error attributes.
         /// </remarks>
@@ -42,7 +50,7 @@ namespace BytLabs.Api.Graphql
         {
             requestExecutorBuilder
                 .AddType<BusinessErrorType>()
-                .AddType<ValidationErrorType>()
+                .AddType<InputValidationErrorType>()
                 .AddType<FieldErrorType>();
                 
             return requestExecutorBuilder;
