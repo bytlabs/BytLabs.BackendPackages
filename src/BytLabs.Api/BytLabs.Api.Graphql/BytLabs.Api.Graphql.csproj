@@ -25,8 +25,4 @@
 	  <ProjectReference Include="..\..\BytLabs.Core\BytLabs.Application\BytLabs.Application.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Error\Types\" />
-	</ItemGroup>
-
 </Project>
