@@ -34,6 +34,7 @@ namespace BytLabs.DataAccess.MongDB
 
             AddHealthChecks(service, config);
 
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
             return service;
         }

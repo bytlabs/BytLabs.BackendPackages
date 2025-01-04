@@ -10,9 +10,10 @@ namespace BytLabs.DataAccess.MongDB.Conventions
 
             var conventionPack = new ConventionPack
                                  {
-                                     new CamelCaseElementNameConvention(),
-                                     new EnumRepresentationConvention(BsonType.String),
-                                     new IgnoreExtraElementsConvention(true), new IgnoreIfNullConvention(true)
+                                    new CamelCaseElementNameConvention(),
+                                    new EnumRepresentationConvention(BsonType.String),
+                                    new IgnoreExtraElementsConvention(true), 
+                                    new IgnoreIfNullConvention(true),
                                  };
             ConventionRegistry.Register("all", conventionPack, _ => true);
         }
