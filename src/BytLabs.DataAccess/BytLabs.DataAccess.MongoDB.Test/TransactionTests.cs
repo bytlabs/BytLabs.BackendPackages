@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BytLabs.DataAccess.MongoDB.Test;
 
-public class TransactionTests
+public class TransactionTests : TestsBase
 {
     private readonly IServiceScope _serviceScope;
     private readonly IMediator _mediator;
@@ -23,37 +23,7 @@ public class TransactionTests
         _serviceScope = provider.CreateScope();
         _mediator = _serviceScope.ServiceProvider.GetRequiredService<IMediator>();
     }
-
-    private static void ConfigureServices(IServiceCollection services)
-    {
-        services.AddFakeLogging();
-        services.AddMultitenancy()
-                    .AddResolver<ITenantIdResolver>(provider => new ValueTenantIdResolver(new TenantId("bytlabs")));
-        services.AddCQS([typeof(TransactionTests).Assembly], _ => { });
-        services.AddMongoDatabase(new MongoDatabaseConfiguration
-        {
-            ConnectionString = "mongodb://root:local_dev@localhsot:27017?replicaSet=bytlabs-mongo-set",
-            DatabaseName = "test",
-            UseTransactions = true
-        });
-    }
-
-    #region Sequential Commands Test
-
-    public record FirstCommand : ICommand;
-    public record SecondCommand : ICommand;
-
-    public class FirstCommandHandler : ICommandHandler<FirstCommand>
-    {
-        public Task Handle(FirstCommand request, CancellationToken cancellationToken) => 
-            Task.CompletedTask;
-    }
-
-    public class SecondCommandHandler : ICommandHandler<SecondCommand>
-    {
-        public Task Handle(SecondCommand request, CancellationToken cancellationToken) => 
-            Task.CompletedTask;
-    }
+    
 
     [Fact]
     public async Task GIVEN_TwoSequentialCommands_WHEN_ExecutedInSameScope_THEN_ShouldNotThrowException()
@@ -67,10 +37,34 @@ public class TransactionTests
         // Assert
         await act.Should().NotThrowAsync();
     }
+   
 
-    #endregion
+    [Fact]
+    public async Task GIVEN_NestedCommand_WHEN_ExecutedWithinOuterCommand_THEN_ShouldNotThrowException()
+    {
+        // Act
+        var act = () => _mediator.Send(new OuterCommand());
 
-    #region Nested Commands Test
+        // Assert
+        await act.Should().NotThrowAsync();
+    }
+
+    #region supporting classes
+    public record FirstCommand : ICommand;
+    public record SecondCommand : ICommand;
+
+    public class FirstCommandHandler : ICommandHandler<FirstCommand>
+    {
+        public Task Handle(FirstCommand request, CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+    }
+
+    public class SecondCommandHandler : ICommandHandler<SecondCommand>
+    {
+        public Task Handle(SecondCommand request, CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+    }
+
 
     public record OuterCommand : ICommand;
     public record NestedCommand : ICommand;
@@ -90,18 +84,8 @@ public class TransactionTests
 
     public class NestedCommandHandler : ICommandHandler<NestedCommand>
     {
-        public Task Handle(NestedCommand request, CancellationToken cancellationToken) => 
+        public Task Handle(NestedCommand request, CancellationToken cancellationToken) =>
             Task.CompletedTask;
-    }
-
-    [Fact]
-    public async Task GIVEN_NestedCommand_WHEN_ExecutedWithinOuterCommand_THEN_ShouldNotThrowException()
-    {
-        // Act
-        var act = () => _mediator.Send(new OuterCommand());
-
-        // Assert
-        await act.Should().NotThrowAsync();
     }
 
     #endregion

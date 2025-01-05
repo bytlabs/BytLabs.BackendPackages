@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace BytLabs.DataAccess.MongoDB.Test
 {
-    public class AggregateRootUtilsTests
+    public class AggregateRootUtilsTests : TestsBase
     {
         [Fact]
         public void GIVEN_AggregateOrder_WHEN_InhertiedFromAggregateRootBase_THEN_IsInheritingShouldBeTrue()
