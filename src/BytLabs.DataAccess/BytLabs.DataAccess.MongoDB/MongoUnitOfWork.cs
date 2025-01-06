@@ -2,7 +2,7 @@ using BytLabs.Application.DataAccess;
 using BytLabs.Infrastructure.Exceptions;
 using MongoDB.Driver;
 
-namespace BytLabs.DataAccess.MongDB;
+namespace BytLabs.DataAccess.MongoDB;
 
 /// <summary>
 /// MongoDB implementation of the Unit of Work pattern.

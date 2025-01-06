@@ -1,4 +1,4 @@
-namespace BytLabs.DataAccess.MongDB;
+namespace BytLabs.DataAccess.MongoDB;
 
 /// <summary>
 /// Stores configuration options for MongoDB repositories, specifically the collection name for an entity type.

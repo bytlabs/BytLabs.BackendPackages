@@ -1,4 +1,4 @@
-namespace BytLabs.DataAccess.MongDB;
+namespace BytLabs.DataAccess.MongoDB;
 
 public static class MongoHealthChecks
 {

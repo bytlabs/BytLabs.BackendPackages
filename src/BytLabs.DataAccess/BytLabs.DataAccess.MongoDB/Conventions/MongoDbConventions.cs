@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace BytLabs.DataAccess.MongDB.Conventions
+namespace BytLabs.DataAccess.MongoDB.Conventions
 {
     internal static class MongoDbConventions
     {

@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BytLabs.DataAccess", "BytLa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BytLabs.Core", "BytLabs.Core", "{0784CDF1-5BBB-47C2-916C-84B5C87BA250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.DataAccess.MongDB", "src\BytLabs.DataAccess\BytLabs.DataAccess.MongDB\BytLabs.DataAccess.MongDB.csproj", "{A86227EC-166F-4A2E-AF34-B065DE9801BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.DataAccess.MongoDB", "src\BytLabs.DataAccess\BytLabs.DataAccess.MongoDB\BytLabs.DataAccess.MongoDB.csproj", "{A86227EC-166F-4A2E-AF34-B065DE9801BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BytLabs.Multitenancy", "BytLabs.Multitenancy", "{E75061BF-9EC1-490B-8B90-B089243A5F7A}"
 EndProject

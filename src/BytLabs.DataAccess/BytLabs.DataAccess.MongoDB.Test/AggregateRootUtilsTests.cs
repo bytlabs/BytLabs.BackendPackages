@@ -1,4 +1,4 @@
-﻿using BytLabs.DataAccess.MongDB;
+﻿using BytLabs.DataAccess.MongoDB;
 using BytLabs.DataAccess.MongoDB.Test.OrdersService.Domain;
 using FluentAssertions;
 
