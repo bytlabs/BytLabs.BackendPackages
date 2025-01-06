@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BytLabs.DataAccess.MongDB\BytLabs.DataAccess.MongDB.csproj" />
+		<ProjectReference Include="..\BytLabs.DataAccess.MongoDB\BytLabs.DataAccess.MongoDB.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

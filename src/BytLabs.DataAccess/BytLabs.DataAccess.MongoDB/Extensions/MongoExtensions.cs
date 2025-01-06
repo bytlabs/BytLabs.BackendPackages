@@ -1,7 +1,7 @@
 using BytLabs.Domain.Entities;
 using MongoDB.Driver;
 
-namespace BytLabs.DataAccess.MongDB.Extensions;
+namespace BytLabs.DataAccess.MongoDB.Extensions;
 
 /// <summary>
 /// Mongo DB Extensions

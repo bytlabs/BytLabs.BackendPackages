@@ -1,6 +1,6 @@
 using BytLabs.Application.DataAccess;
-using BytLabs.DataAccess.MongDB.Configuration;
-using BytLabs.DataAccess.MongDB.Conventions;
+using BytLabs.DataAccess.MongoDB.Configuration;
+using BytLabs.DataAccess.MongoDB.Conventions;
 using BytLabs.Domain.Entities;
 using BytLabs.Multitenancy;
 using GuardClauses;
@@ -12,7 +12,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
-namespace BytLabs.DataAccess.MongDB
+namespace BytLabs.DataAccess.MongoDB
 {
     public static class ServiceCollectionExtensions
     {

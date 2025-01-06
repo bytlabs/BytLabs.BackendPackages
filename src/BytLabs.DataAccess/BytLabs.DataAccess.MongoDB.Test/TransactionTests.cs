@@ -1,7 +1,7 @@
 using BytLabs.Application;
 using BytLabs.Application.CQS.Commands;
-using BytLabs.DataAccess.MongDB;
-using BytLabs.DataAccess.MongDB.Configuration;
+using BytLabs.DataAccess.MongoDB;
+using BytLabs.DataAccess.MongoDB.Configuration;
 using BytLabs.Multitenancy;
 using BytLabs.Multitenancy.Resolvers;
 using FluentAssertions;

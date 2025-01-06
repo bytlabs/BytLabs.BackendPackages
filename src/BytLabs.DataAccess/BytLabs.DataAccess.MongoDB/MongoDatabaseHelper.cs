@@ -4,7 +4,7 @@ using GuardClauses;
 using Humanizer;
 using MongoDB.Driver;
 
-namespace BytLabs.DataAccess.MongDB
+namespace BytLabs.DataAccess.MongoDB
 {
     /// <summary>
     /// Helper methods for MongoDB database operations and naming conventions

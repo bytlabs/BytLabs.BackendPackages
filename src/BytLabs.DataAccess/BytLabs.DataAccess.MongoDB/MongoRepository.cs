@@ -6,7 +6,7 @@ using BytLabs.Domain.Entities;
 using MongoDB.Driver;
 using SharpCompress.Common;
 
-namespace BytLabs.DataAccess.MongDB;
+namespace BytLabs.DataAccess.MongoDB;
 
 /// <summary>
 /// MongoDB implementation of the generic repository pattern for aggregate roots.

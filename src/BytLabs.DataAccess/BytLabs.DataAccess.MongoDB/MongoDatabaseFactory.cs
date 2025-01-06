@@ -1,10 +1,10 @@
-using BytLabs.DataAccess.MongDB.Configuration;
+using BytLabs.DataAccess.MongoDB.Configuration;
 using BytLabs.Multitenancy;
 using GuardClauses;
 using MongoDB.Driver;
 using System.Collections.Concurrent;
 
-namespace BytLabs.DataAccess.MongDB
+namespace BytLabs.DataAccess.MongoDB
 {
     /// <summary>
     /// Factory for creating MongoDB database instances with multi-tenancy support.

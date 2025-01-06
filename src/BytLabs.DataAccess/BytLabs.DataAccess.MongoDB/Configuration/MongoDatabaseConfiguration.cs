@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BytLabs.DataAccess.MongDB.Configuration
+namespace BytLabs.DataAccess.MongoDB.Configuration
 {
     /// <summary>
     /// Configuration settings for MongoDB database connections.
