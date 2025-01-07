@@ -35,6 +35,21 @@ namespace BytLabs.Api.Graphql
         }
 
         /// <summary>
+        /// Adds a DTO (Data Transfer Object) type to the GraphQL schema.
+        /// </summary>
+        /// <typeparam name="T">The DTO type to add.</typeparam>
+        /// <param name="requestExecutorBuilder">The GraphQL request executor builder.</param>
+        /// <returns>The configured request executor builder with added DTO type.</returns>
+        /// <remarks>
+        /// This method registers a DTO type using the <see cref="DtoType{T}"/> wrapper to expose it in the GraphQL schema.
+        /// </remarks>
+        public static IRequestExecutorBuilder AddDtoType<T>(this IRequestExecutorBuilder requestExecutorBuilder)
+        {
+            return requestExecutorBuilder
+                .AddType<DtoType<T>>();
+        }
+
+        /// <summary>
         /// Adds custom error types to the GraphQL schema.
         /// </summary>
         /// <param name="requestExecutorBuilder">The GraphQL request executor builder.</param>
