@@ -9,7 +9,7 @@ Welcome to BytLabs Backend Packages documentation. This collection of .NET libra
 ## Quick Navigation
 
 - [Getting Started](docs/getting-started.md)
-- [API Documentation](api/BytLabs.Api.md)
+- [API Documentation](api/BytLabs.Api.yml)
 - [Introduction](docs/introduction.md)
 
 ## Key Features
