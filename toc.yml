@@ -1,4 +1,8 @@
+- name: Home
+  href: https://bytlabs.co
 - name: Docs
   href: docs/
 - name: API
   href: api/
+- name: Blog
+  href: https://bytlabs.co/blog
