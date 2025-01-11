@@ -103,11 +103,14 @@ namespace BytLabs.DataAccess.MongoDB
                     .SetSerializer(new StringSerializer(BsonType.String));
 
             });
+
+            var guidSerializer = new GuidSerializer(GuidRepresentation.Standard);
+            BsonSerializer.TryRegisterSerializer(guidSerializer);
             BsonClassMap.TryRegisterClassMap<Entity<Guid>>(cm =>
             {
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id)
-                    .SetSerializer(new GuidSerializer(BsonType.String));
+                    .SetSerializer(guidSerializer);
             });
         }
 
