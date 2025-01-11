@@ -11,6 +11,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using System.Security.Principal;
 
 namespace BytLabs.DataAccess.MongoDB
 {
@@ -68,16 +69,6 @@ namespace BytLabs.DataAccess.MongoDB
 
         private static void RegisterMongoClassMapForEntities<TEntity, TIdentity>(bool autoMap, Action<BsonClassMap<TEntity>>? configureEntity) where TEntity : IAggregateRoot<TIdentity>
         {
-
-            if (AggregateRootUtils.IsInheritingFromAggregateRootBase<TEntity, TIdentity>())
-            {
-                BsonClassMap.TryRegisterClassMap<AggregateRootBase<TIdentity>>(cm =>
-                {
-                    cm.AutoMap();
-                    cm.UnmapProperty(it => it.DomainEvents);
-                });
-            }
-
             BsonClassMap.TryRegisterClassMap<TEntity>(cm =>
             {
                 if (autoMap)
@@ -108,6 +99,22 @@ namespace BytLabs.DataAccess.MongoDB
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id)
                     .SetSerializer(new GuidSerializer(BsonType.String));
+            });
+
+            BsonClassMap.TryRegisterClassMap<AggregateRootBase<string>>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdMember(c => c.Id)
+                    .SetSerializer(new StringSerializer(BsonType.String));
+                cm.UnmapProperty(it => it.DomainEvents);
+            });
+
+            BsonClassMap.TryRegisterClassMap<AggregateRootBase<Guid>>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapIdMember(c => c.Id)
+                    .SetSerializer(new StringSerializer(BsonType.String));
+                cm.UnmapProperty(it => it.DomainEvents);
             });
         }
 
