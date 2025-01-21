@@ -1,4 +1,7 @@
 using BytLabs.States.Domain.Tests.Orders;
+using BytLabs.States.Domain.Tests.Orders.StateMachine;
+using RulesEngine.Models;
+using System.Reflection;
 
 namespace BytLabs.States.Domain.Tests
 {
@@ -7,27 +10,30 @@ namespace BytLabs.States.Domain.Tests
         [Fact]
         public void GIVEN_StatefulAggregate_WHEN_TriggerOccurred_THEN_TransitionShouldTakePlace()
         {
-            var entityChangedTrigger = new Trigger("entity_changed", "Entity Changed");
-
-            var placedState = new State("placed", "Placed");
-            var shippedState = new State("shipped", "Shipped");
-            var orderStateMachine = new StateMachine("order_state_machine",
-                new List<State>
+            var orderStateMachine = new OrderStateMachineAggregate(Guid.NewGuid(),
+                new HashSet<OrderState>
                 {
-                    placedState,
-                    shippedState,
+                    new OrderState(OrderStateId.Created),
+                    new OrderState(OrderStateId.Placed),
+                    new OrderState(OrderStateId.Shipped),
                 },
-                new List<Transition>
+                new List<OrderTransition>
                 {
-                    new Transition("placed_to_shipped", "placed", "shipped", entityChangedTrigger.Id),
+                    new OrderTransition(
+                        Guid.NewGuid(), 
+                        OrderStateId.Placed, 
+                        OrderStateId.Shipped,
+                        OrderAggregate.Triggers.MarkAsShipped,
+                        new List<TransitionRule>
+                        { 
+                            new TransitionRule(Guid.NewGuid(), "Check current state", "entity.StateId == OrderStateId.Placed")
+                        }),
                 });
 
-            var order = new OrderAggregate(Guid.NewGuid(), orderStateMachine.Id, placedState.Id);
-            order.MarkAsShipped();
+            var order = new OrderAggregate(Guid.NewGuid(), orderStateMachine.Id, OrderStateId.Placed);
+            order.MarkAsShipped(orderStateMachine);
 
-            order.UpdateState(entityChangedTrigger, orderStateMachine);
-
-            Assert.Equal(shippedState.Id, order.StateId);
+            Assert.Equal(OrderStateId.Shipped, order.StateId);
         }
     }
 }

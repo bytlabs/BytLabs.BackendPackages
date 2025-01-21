@@ -1,22 +1,36 @@
 ﻿using BytLabs.Domain.DomainEvents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BytLabs.States.Domain.Tests.Orders.StateMachine;
+using OrderStateMachineId = System.Guid;
+using OrderTransitionId = System.Guid;
+using OrderAggregateId = System.Guid;
+using RulesEngine.Models;
+using System.Reflection;
 
 namespace BytLabs.States.Domain.Tests.Orders
 {
-    public class OrderAggregate : StatefulAggregateRoot<Guid>
+    public class OrderAggregate : StatefulAggregateBase<OrderAggregateId, 
+        OrderStateMachineAggregate, OrderStateMachineId, 
+        OrderTransition, OrderTransitionId, 
+        OrderState, OrderStateId>
     {
-        public OrderAggregate(Guid id, string stateMachineId, string stateId) : base(id, stateMachineId, stateId)
+
+        public static class Triggers
+        {
+            public static Trigger MarkAsShipped = new Trigger("MarkAsShipped");
+        }
+
+
+        public OrderAggregate(OrderAggregateId id, OrderStateMachineId stateMachineId, OrderStateId stateId) : base(id, stateMachineId, stateId)
         {
 
         }
 
-        public void MarkAsShipped()
+        public void MarkAsShipped(OrderStateMachineAggregate orderStateMachine)
         {
-            AddDomainEvent(new OrderShippedEvent());
+            orderStateMachine.Fire(Triggers.MarkAsShipped, this, new ReSettings
+            {
+                CustomTypes = Assembly.GetExecutingAssembly().GetTypes()
+            });
         }
     }
 
