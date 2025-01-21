@@ -4,16 +4,15 @@ using RulesEngine.Models;
 
 namespace BytLabs.States.Domain
 {
-    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>
+    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>
     {
-        public abstract class StateMachineAggregateBase
-            : AggregateRootBase<TStateMachineId>
+        public abstract class StateMachineAggregateBase : AggregateRootBase<TStateMachineId>
         {
-            public IReadOnlySet<TStateEntity> States { get; private set; } = new HashSet<TStateEntity>();
+            public IReadOnlySet<TState> States { get; private set; } = new HashSet<TState>();
             public IReadOnlyCollection<TTransition> Transitions { get; private set; } = new List<TTransition>();
 
             public StateMachineAggregateBase(TStateMachineId id,
-                IReadOnlySet<TStateEntity> states,
+                IReadOnlySet<TState> states,
                 IReadOnlyCollection<TTransition> transitions) : base(id)
             {
                 States = states;
@@ -43,7 +42,7 @@ namespace BytLabs.States.Domain
 
 
             public void Fire<TStatefulAggregate>(Trigger trigger, TStatefulAggregate entity, ReSettings? settings = null)
-                where TStatefulAggregate : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>
+                where TStatefulAggregate : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>
 
             {
                 foreach (var transition in Transitions)

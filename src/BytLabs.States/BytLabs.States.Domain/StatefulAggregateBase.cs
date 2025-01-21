@@ -3,11 +3,11 @@ using RulesEngine.Models;
 
 namespace BytLabs.States.Domain
 {
-    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId> 
+    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId> 
         : AggregateRootBase<TId> 
-        where TStateEntity : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>.StateBase
-        where TTransition : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>.TransitionBase
-        where TStateMachine : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>.StateMachineAggregateBase
+        where TState : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.StateBase
+        where TTransition : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.TransitionBase
+        where TStateMachine : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.StateMachineAggregateBase
     {
         protected StatefulAggregateBase(TId id, TStateMachineId stateMachineId, TStateId stateId):base(id)
         {

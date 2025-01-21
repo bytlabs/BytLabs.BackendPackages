@@ -2,7 +2,7 @@
 
 namespace BytLabs.States.Domain
 {
-    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TStateEntity, TStateId>
+    public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>
     {
         public abstract class TransitionBase : Entity<TTransitionId>
         {
