@@ -8,8 +8,8 @@ namespace BytLabs.Forms.DataAccess.MongoDB
     {
         public static IServiceCollection AddFormData<T>(this IServiceCollection services)
         {
+            BsonSerializer.TryRegisterSerializer(typeof(FormKey), new FormKeySerializer());
             BsonSerializer.TryRegisterSerializer(typeof(FormData<T>), new FormDataSerializer<T>());
-
             return services;
         }
     }

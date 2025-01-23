@@ -4,7 +4,8 @@ using RulesEngine.Models;
 namespace BytLabs.States.Domain
 {
     public abstract partial class StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId> 
-        : AggregateRootBase<TId> 
+        : AggregateRootBase<TId>
+        where TStateId : notnull
         where TState : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.StateBase
         where TTransition : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.TransitionBase
         where TStateMachine : StatefulAggregateBase<TId, TStateMachine, TStateMachineId, TTransition, TTransitionId, TState, TStateId>.StateMachineAggregateBase
