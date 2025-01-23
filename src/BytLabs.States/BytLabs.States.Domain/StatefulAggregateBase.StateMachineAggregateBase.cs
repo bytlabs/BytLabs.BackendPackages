@@ -38,13 +38,14 @@ namespace BytLabs.States.Domain
                     throw new ArgumentNullException(nameof(transitions));
                 }
 
+                States = states ?? throw new ArgumentNullException(nameof(states));
+
                 var invalidStates = GetInvalidStates(transitions);
                 if (invalidStates.Any())
                 {
                     throw new DomainException($"Transitions contain some invalid states: {string.Join(", ", invalidStates)}");
                 }
-
-                States = states ?? throw new ArgumentNullException(nameof(states));
+                
                 Transitions = transitions;
             }
 
