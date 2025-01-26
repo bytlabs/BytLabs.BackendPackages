@@ -1,5 +1,6 @@
 using BytLabs.Api.Graphql.Error.Types;
-using BytLabs.Api.Graphql.Types;
+using BytLabs.Api.Graphql.InputTypes;
+using BytLabs.Api.Graphql.ObjectTypes;
 using BytLabs.Domain.Entities;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +13,18 @@ namespace BytLabs.Api.Graphql
     /// </summary>
     public static class RequestExecutorBuilderExtension
     {
-        public static IRequestExecutorBuilder AddAggregateType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder) where TAggregate : IAggregateRoot<TId>
+        public static IRequestExecutorBuilder AddAggregateFilterType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TAggregate : IAggregateRoot<TId>
         {
             return requestExecutorBuilder
-                    .AddType<AggregateType<TAggregate, TId>>();
+                .AddType<AggregateFilterInput<TAggregate, TId>>();
+        }
+
+        public static IRequestExecutorBuilder AddAggregateSortType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TAggregate : IAggregateRoot<TId>
+        {
+            return requestExecutorBuilder
+                .AddType<AggregateSortInput<TAggregate, TId>>();
         }
 
 

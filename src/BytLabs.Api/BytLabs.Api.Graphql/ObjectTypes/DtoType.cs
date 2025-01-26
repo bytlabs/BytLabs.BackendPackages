@@ -1,4 +1,4 @@
-﻿namespace BytLabs.Api.Graphql
+﻿namespace BytLabs.Api.Graphql.ObjectTypes
 {
     /// <summary>
     /// Base GraphQL type for DTOs.
