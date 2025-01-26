@@ -10,8 +10,6 @@ namespace BytLabs.Api.Graphql.InputTypes
         protected override void Configure(ISortInputTypeDescriptor<TAggregate> descriptor)
         {
             descriptor.BindFieldsImplicitly();
-            descriptor.Field(field => field.DomainEvents)
-                .Ignore();
         }
     }
 }
