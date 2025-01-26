@@ -114,8 +114,9 @@ namespace BytLabs.States.Domain
             private IReadOnlyCollection<TStateId> GetInvalidStates(IReadOnlyCollection<TTransition> transitions)
             {
                 var possibleStateIds = transitions
-                                            .SelectMany(t => new[] { t.To, t.From! })
+                                            .SelectMany(t => new[] { t.To, t.From })
                                             .Where(state => state != null)
+                                            .Cast<TStateId>()
                                             .Distinct()
                                             .ToList();
 
