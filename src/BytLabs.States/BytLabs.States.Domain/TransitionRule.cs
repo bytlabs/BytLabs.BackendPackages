@@ -12,8 +12,8 @@ namespace BytLabs.States.Domain
             Expression = expression;
         }
 
-        public string Name { get; set; }
-        public string Expression { get; set; }
+        public string Name { get; private set; }
+        public string Expression { get; private set; }
 
 
         public bool Evaluate(ReSettings? settings = null, params RuleParameter[] @params)

@@ -16,7 +16,7 @@ namespace BytLabs.States.Domain
             StateId = stateId;
         }
 
-        public TStateMachineId StateMachineId { get; private set; }
-        public TStateId StateId { get; private set; }
+        public TStateMachineId StateMachineId { get; protected set; }
+        public TStateId StateId { get; protected set; }
     }    
 }

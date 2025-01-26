@@ -14,12 +14,12 @@ namespace BytLabs.States.Domain
             /// <summary>
             /// Gets the collection of valid states in this state machine.
             /// </summary>
-            public IReadOnlySet<TState> States { get; private set; } = new HashSet<TState>();
+            public IReadOnlySet<TState> States { get; protected set; } = new HashSet<TState>();
 
             /// <summary>
             /// Gets the collection of transitions that define the allowed state changes and their rules.
             /// </summary>
-            public IReadOnlyCollection<TTransition> Transitions { get; private set; } = new List<TTransition>();
+            public IReadOnlyCollection<TTransition> Transitions { get; protected set; } = new List<TTransition>();
 
             /// <summary>
             /// Initializes a new instance of the state machine aggregate.

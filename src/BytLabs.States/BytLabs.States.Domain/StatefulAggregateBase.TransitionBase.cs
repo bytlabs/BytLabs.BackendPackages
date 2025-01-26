@@ -8,10 +8,10 @@ namespace BytLabs.States.Domain
     {
         public abstract class TransitionBase : Entity<TTransitionId>
         {
-            public TStateId? From { get; set; }
-            public TStateId To { get; set; }
-            public Trigger? Trigger { get; set; }
-            public IReadOnlyCollection<TransitionRule> Rules { get; private set; }
+            public TStateId? From { get; protected set; }
+            public TStateId To { get; protected set; }
+            public Trigger? Trigger { get; protected set; }
+            public IReadOnlyCollection<TransitionRule> Rules { get; protected set; }
 
             public TransitionBase(TTransitionId id, TStateId? from, TStateId to, Trigger? trigger, IReadOnlyCollection<TransitionRule> rules) : base(id)
             {
