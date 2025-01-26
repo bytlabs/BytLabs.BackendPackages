@@ -25,7 +25,7 @@ namespace BytLabs.Application.Test.OrdersService.Application.Queries
                 CustomerName = order.CustomerName,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
-                CreatedAt = order.CreatedAt,
+                CreatedAt = order.AuditInfo.CreatedAt,
                 ProcessedAt = order.ProcessedAt
             };
         }

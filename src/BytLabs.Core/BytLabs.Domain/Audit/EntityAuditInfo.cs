@@ -6,6 +6,11 @@ namespace BytLabs.Domain.Audit
     /// </summary>
     public abstract class EntityAuditInfo : IAuditableEntity
     {
+        public AuditInfo AuditInfo { get; private set; } = new AuditInfo();
+    }
+
+    public class AuditInfo
+    {
         public DateTime? CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
 

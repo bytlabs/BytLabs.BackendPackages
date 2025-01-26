@@ -71,8 +71,8 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
     /// <inheritdoc />
     public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        entity.CreatedAt = DateTime.UtcNow;
-        entity.CreatedBy = userContextProvider.GetUserId();
+        entity.AuditInfo.CreatedAt = DateTime.UtcNow;
+        entity.AuditInfo.CreatedBy = userContextProvider.GetUserId();
 
         if (unitOfWork.Session != null)
         {
@@ -94,8 +94,8 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
 
         FilterDefinition<TEntity>? filter = Builders<TEntity>.Filter.Eq("_id", entity.Id);
 
-        entity.LastModifiedAt = DateTime.UtcNow;
-        entity.LastModifiedBy = userContextProvider.GetUserId();
+        entity.AuditInfo.LastModifiedAt = DateTime.UtcNow;
+        entity.AuditInfo.LastModifiedBy = userContextProvider.GetUserId();
 
         if (unitOfWork.Session != null)
         {
@@ -212,8 +212,8 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
     }
     private void UpdateAuditData(TEntity aggregate)
     {
-        aggregate.LastModifiedAt = DateTime.UtcNow;
-        aggregate.LastModifiedBy = userContextProvider.GetUserId();
+        aggregate.AuditInfo.LastModifiedAt = DateTime.UtcNow;
+        aggregate.AuditInfo.LastModifiedBy = userContextProvider.GetUserId();
     }
 
     /// <summary>
