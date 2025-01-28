@@ -7,7 +7,6 @@ public class OrderAggregate : AggregateRootBase<Guid>
         CustomerName = customerName;
         TotalAmount = totalAmount;
         Status = OrderStatus.Created;
-        CreatedAt = DateTime.UtcNow;
     }
 
     public string CustomerName { get; private set; }

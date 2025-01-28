@@ -1,4 +1,5 @@
-﻿using BytLabs.Domain.DomainEvents;
+﻿using BytLabs.Domain.Audit;
+using BytLabs.Domain.DomainEvents;
 using BytLabs.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace BytLabs.DataAccess.MongoDB.Test.OrdersService.Domain
         public string? LastModifiedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public DateTime? DeletedAt { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string? DeletedBy { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public AuditInfo AuditInfo => throw new NotImplementedException();
 
         public void ClearDomainEvents()
         {

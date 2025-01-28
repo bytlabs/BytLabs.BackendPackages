@@ -15,6 +15,6 @@ public interface IEntity<out TIdType> : IEntityId<TIdType>, IEntity
 /// Represents the base entity interface.
 /// Provides auditing capabilities for all entities in the system.
 /// </summary>
-public interface IEntity : IAuditableEntity
+public interface IEntity
 {
 }

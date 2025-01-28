@@ -93,10 +93,9 @@ public class DomainEventDispatcherDecorator<TAggregateRoot, TIdentity>(
     /// Deletes an aggregate by ID and publishes any domain events raised during the operation.
     /// The aggregate is loaded before deletion to ensure proper event handling.
     /// </remarks>
-    public async Task DeleteAsync(TIdentity id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(TAggregateRoot entity, CancellationToken cancellationToken)
     {
-        TAggregateRoot entity = await GetByIdAsync(id, cancellationToken);
-        await repository.DeleteAsync(id, cancellationToken);
+        await repository.DeleteAsync(entity, cancellationToken);
         await PublishDomainEvents(entity, cancellationToken);
     }
 

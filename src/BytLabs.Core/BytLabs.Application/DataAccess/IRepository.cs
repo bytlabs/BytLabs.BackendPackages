@@ -57,7 +57,7 @@ public interface IRepository<TAggregateRoot, TIdentity> where TAggregateRoot : I
     /// </summary>
     /// <param name="id">The unique identifier of the entity to delete</param>
     /// <param name="cancellationToken">Cancellation token for the operation</param>
-    Task DeleteAsync(TIdentity id, CancellationToken cancellationToken);
+    Task DeleteAsync(TAggregateRoot id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retrieves multiple entities by their identifiers.

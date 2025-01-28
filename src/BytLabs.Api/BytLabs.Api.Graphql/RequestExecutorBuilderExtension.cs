@@ -1,8 +1,10 @@
 using BytLabs.Api.Graphql.Error.Types;
-using BytLabs.Api.Graphql.Types;
+using BytLabs.Api.Graphql.InputTypes;
+using BytLabs.Api.Graphql.ObjectTypes;
 using BytLabs.Domain.Entities;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 namespace BytLabs.Api.Graphql
 {
@@ -11,10 +13,18 @@ namespace BytLabs.Api.Graphql
     /// </summary>
     public static class RequestExecutorBuilderExtension
     {
-        public static IRequestExecutorBuilder AddAggregateType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder) where TAggregate : IAggregateRoot<TId>
+        public static IRequestExecutorBuilder AddAggregateFilterType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TAggregate : IAggregateRoot<TId>
         {
             return requestExecutorBuilder
-                    .AddType<AggregateType<TAggregate, TId>>();
+                .AddType<AggregateFilterInput<TAggregate, TId>>();
+        }
+
+        public static IRequestExecutorBuilder AddAggregateSortType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TAggregate : IAggregateRoot<TId>
+        {
+            return requestExecutorBuilder
+                .AddType<AggregateSortInput<TAggregate, TId>>();
         }
 
 
@@ -30,7 +40,13 @@ namespace BytLabs.Api.Graphql
         /// </remarks>
         public static IRequestExecutorBuilder AddCommandType<TCommand>(this IRequestExecutorBuilder requestExecutorBuilder)
         {
-            requestExecutorBuilder.AddInputObjectType<TCommand>(x => x.Name(typeof(TCommand).Name.Replace("Command", "Input")));
+            requestExecutorBuilder.AddInputObjectType<TCommand>(x =>
+            {
+                var inputName = typeof(TCommand).Name
+                                .Replace("Command", "Input")
+                                .Replace("Dto", "Input");
+                x.Name(inputName);
+            });
             return requestExecutorBuilder;
         }
 
