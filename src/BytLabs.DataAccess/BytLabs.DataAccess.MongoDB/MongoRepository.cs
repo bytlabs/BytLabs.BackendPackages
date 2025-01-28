@@ -110,12 +110,10 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
     }
 
     /// <inheritdoc />
-    public async Task DeleteAsync(TIdentity id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        if (id == null)
-            throw new ArgumentNullException(nameof(id));
 
-        FilterDefinition<TEntity>? filter = Builders<TEntity>.Filter.Eq("_id", id);
+        FilterDefinition<TEntity>? filter = Builders<TEntity>.Filter.Eq("_id", entity.Id);
 
         if (unitOfWork.Session != null)
         {
