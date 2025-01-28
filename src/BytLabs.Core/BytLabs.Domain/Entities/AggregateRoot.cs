@@ -48,6 +48,10 @@ public abstract class AggregateRootBase<TId> : Entity<TId>, IAggregateRoot<TId>
     /// Adds a new domain event to this aggregate root
     /// </summary>
     /// <param name="domainEvent">The domain event to add</param>
-    public void AddDomainEvent(IDomainEvent domainEvent) =>
+    public void AddDomainEvent(IDomainEvent domainEvent)
+    {
+        if(_domainEvents == null) _domainEvents = new List<IDomainEvent>();
         _domainEvents.Add(domainEvent);
+    }
+        
 }
