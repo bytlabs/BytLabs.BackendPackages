@@ -44,6 +44,8 @@ public abstract class AggregateRootBase<TId> : Entity<TId>, IAggregateRoot<TId>
         }
     }
 
+    public AuditInfo AuditInfo { get; private set; } = new AuditInfo();
+
     /// <summary>
     /// Adds a new domain event to this aggregate root
     /// </summary>

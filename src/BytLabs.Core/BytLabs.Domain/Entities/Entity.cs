@@ -8,7 +8,7 @@ namespace BytLabs.Domain.Entities;
 /// Provides basic entity functionality including identity and audit information.
 /// </summary>
 /// <typeparam name="TIdType">The type of the identifier for the entity</typeparam>
-public abstract class Entity<TIdType> : EntityAuditInfo, IEntity<TIdType>
+public abstract class Entity<TIdType> : IEntity<TIdType>
 {
     /// <summary>
     /// Gets the unique identifier for this entity.

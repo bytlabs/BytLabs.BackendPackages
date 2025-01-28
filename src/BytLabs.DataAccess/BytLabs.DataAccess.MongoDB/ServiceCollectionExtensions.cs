@@ -1,6 +1,7 @@
 using BytLabs.Application.DataAccess;
 using BytLabs.DataAccess.MongoDB.Configuration;
 using BytLabs.DataAccess.MongoDB.Conventions;
+using BytLabs.Domain.Audit;
 using BytLabs.Domain.Entities;
 using BytLabs.Multitenancy;
 using GuardClauses;
