@@ -8,12 +8,11 @@
   </PropertyGroup>
 	
 	<ItemGroup>
-		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="FluentValidation" Version="11.9.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
@@ -31,5 +30,10 @@
 	<ItemGroup>
     <ProjectReference Include="..\BytLabs.Domain\BytLabs.Domain.csproj" />
   </ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Mapping\" />
+	</ItemGroup>
 
 </Project>

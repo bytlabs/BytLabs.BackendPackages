@@ -9,4 +9,6 @@ namespace BytLabs.Domain.DomainEvents;
 /// </summary>
 public interface IDomainEvent : INotification
 {
+    public DateTime? CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
 }

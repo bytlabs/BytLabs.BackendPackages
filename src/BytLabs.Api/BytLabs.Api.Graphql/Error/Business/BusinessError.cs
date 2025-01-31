@@ -1,7 +1,8 @@
+using BytLabs.Application.Exceptions;
+using BytLabs.Domain.BusinessRules;
 using BytLabs.Domain.Exceptions;
-using ApplicationException = BytLabs.Application.Exceptions.ApplicationException;
 
-namespace BytLabs.Api.Graphql.Error
+namespace BytLabs.Api.Graphql.Error.Business
 {
     /// <summary>
     /// Represents a business error that can occur during application execution.
@@ -28,12 +29,12 @@ namespace BytLabs.Api.Graphql.Error
         /// </summary>
         /// <param name="ex">The application exception to convert.</param>
         /// <returns>A new BusinessError instance.</returns>
-        public static BusinessError CreateErrorFrom(ApplicationException ex) =>
+        public static BusinessError CreateErrorFrom(ApplicationOperationException ex) =>
             new()
             {
                 Message = ex.Message,
-                Code = null,
-                Property = null
+                Code = ex.Code,
+                Property = ex.Property
             };
 
         /// <summary>
@@ -45,8 +46,16 @@ namespace BytLabs.Api.Graphql.Error
             new()
             {
                 Message = ex.Message,
-                Code = null,
-                Property = null
+                Code = ex.Code,
+                Property = ex.Property
+            };
+
+        public static BusinessError CreateErrorFrom(BusinessRuleException ex) =>
+            new()
+            {
+                Message = ex.Message,
+                Code = ex.Errors.FirstOrDefault()?.ErrorCode,
+                Property = ex.Errors.FirstOrDefault()?.PropertyName
             };
     }
 }

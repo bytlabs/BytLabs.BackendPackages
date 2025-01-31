@@ -1,15 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.CQS.Decorators;
 using BytLabs.Application.CQS.Queries;
-using BytLabs.Application.Mapping;
 using BytLabs.Application.UserContext;
 using FluentValidation;
-
 using MediatR;
 using MediatR.Pipeline;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -31,7 +27,6 @@ namespace BytLabs.Application
         /// <returns>The configured service collection</returns>
         public static IServiceCollection AddCQS(this IServiceCollection services, Assembly[] assemblies, Action<MediatRServiceConfiguration>? options = null)
         {
-            services.AddAutoMapper(typeof(MappingProfile));
             services.TryAddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
             services.TryAddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 

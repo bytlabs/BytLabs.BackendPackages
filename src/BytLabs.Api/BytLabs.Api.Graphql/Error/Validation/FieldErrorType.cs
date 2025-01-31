@@ -1,4 +1,4 @@
-namespace BytLabs.Api.Graphql.Error.Types
+namespace BytLabs.Api.Graphql.Error.Validation
 {
     /// <summary>
     /// Defines the GraphQL type for FieldError.

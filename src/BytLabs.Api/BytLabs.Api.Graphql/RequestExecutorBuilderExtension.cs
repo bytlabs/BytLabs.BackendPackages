@@ -1,4 +1,5 @@
-using BytLabs.Api.Graphql.Error.Types;
+using BytLabs.Api.Graphql.Error.Business;
+using BytLabs.Api.Graphql.Error.Validation;
 using BytLabs.Api.Graphql.InputTypes;
 using BytLabs.Api.Graphql.ObjectTypes;
 using BytLabs.Domain.Entities;
@@ -73,7 +74,7 @@ namespace BytLabs.Api.Graphql
         /// <remarks>
         /// This method adds the following error types:
         /// - <see cref="BusinessErrorType"/>
-        /// - <see cref="InputValidationErrorType"/>
+        /// - <see cref="ValidationErrorType"/>
         /// - <see cref="FieldErrorType"/>
         /// Note: This should not be used in combination with error attributes.
         /// </remarks>
@@ -81,7 +82,7 @@ namespace BytLabs.Api.Graphql
         {
             requestExecutorBuilder
                 .AddType<BusinessErrorType>()
-                .AddType<InputValidationErrorType>()
+                .AddType<ValidationErrorType>()
                 .AddType<FieldErrorType>();
                 
             return requestExecutorBuilder;

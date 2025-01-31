@@ -34,7 +34,7 @@ namespace BytLabs.States.Domain.Tests.Orders
         }
     }
 
-    public class OrderShippedEvent : IDomainEvent
+    public class OrderShippedEvent : DomainEventBase
     {
 
     }

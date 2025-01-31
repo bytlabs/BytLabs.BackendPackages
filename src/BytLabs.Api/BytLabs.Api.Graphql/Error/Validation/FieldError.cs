@@ -1,4 +1,4 @@
-namespace BytLabs.Api.Graphql.Error
+namespace BytLabs.Api.Graphql.Error.Validation
 {
     public class FieldError
     {
