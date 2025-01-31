@@ -37,6 +37,15 @@ namespace BytLabs.Api.Graphql.Error.Business
                 Property = ex.Property
             };
 
+        public static BusinessError CreateErrorFrom(EntityNotFoundException ex) =>
+            new()
+            {
+                Message = ex.Message,
+                Code = ex.Code,
+                Property = ex.Property
+            };
+
+
         /// <summary>
         /// Creates a BusinessError from a DomainException.
         /// </summary>
