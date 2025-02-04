@@ -66,26 +66,5 @@ namespace BytLabs.Api.Graphql
                 .AddType<DtoType<T>>();
         }
 
-        /// <summary>
-        /// Adds custom error types to the GraphQL schema.
-        /// </summary>
-        /// <param name="requestExecutorBuilder">The GraphQL request executor builder.</param>
-        /// <returns>The configured request executor builder with added error types.</returns>
-        /// <remarks>
-        /// This method adds the following error types:
-        /// - <see cref="BusinessErrorType"/>
-        /// - <see cref="ValidationErrorType"/>
-        /// - <see cref="FieldErrorType"/>
-        /// Note: This should not be used in combination with error attributes.
-        /// </remarks>
-        internal static IRequestExecutorBuilder AddErrorTypes(this IRequestExecutorBuilder requestExecutorBuilder)
-        {
-            requestExecutorBuilder
-                .AddType<BusinessErrorType>()
-                .AddType<ValidationErrorType>()
-                .AddType<FieldErrorType>();
-                
-            return requestExecutorBuilder;
-        }
     }
 }

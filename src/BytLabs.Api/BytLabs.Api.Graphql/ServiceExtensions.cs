@@ -17,8 +17,7 @@ namespace BytLabs.Api.Graphql
         {
             return serviceCollection
                 .AddGraphQLServer()
-                .AddBytLabsDefaults()
-                .AddErrorTypes();
+                .AddBytLabsDefaults();
         }
 
         /// <summary>
