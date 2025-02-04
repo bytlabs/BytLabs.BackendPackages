@@ -1,12 +1,14 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 namespace BytLabs.Domain.BusinessRules
 {
-    public class BusinessRuleException : ValidationException
+    public class BusinessRuleException : Exception
     {
-        public BusinessRuleException(IEnumerable<ValidationFailure> errors) : base(errors)
+        public BusinessRuleException(string? message, IEnumerable<ValidationFailure> errors) : base(message)
         {
+            Errors = errors;
         }
+
+        public IEnumerable<ValidationFailure> Errors { get; }
     }
 }

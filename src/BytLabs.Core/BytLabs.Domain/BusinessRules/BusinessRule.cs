@@ -7,7 +7,8 @@ namespace BytLabs.Domain.BusinessRules
     {
         protected override void RaiseValidationException(ValidationContext<T> context, ValidationResult result)
         {
-            throw new BusinessRuleException(result.Errors);
+            var ex = new ValidationException(result.Errors);
+            throw new BusinessRuleException(ex.Message, result.Errors);
         }
     }
 }
