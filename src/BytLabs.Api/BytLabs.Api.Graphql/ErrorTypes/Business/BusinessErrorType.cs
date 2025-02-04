@@ -1,6 +1,6 @@
 using HotChocolate.Types;
 
-namespace BytLabs.Api.Graphql.Error.Business
+namespace BytLabs.Api.Graphql.ErrorTypes.Business
 {
     /// <summary>
     /// Defines the GraphQL type for BusinessError.

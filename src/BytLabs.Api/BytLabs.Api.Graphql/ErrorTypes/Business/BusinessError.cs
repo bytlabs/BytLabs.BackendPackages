@@ -2,7 +2,7 @@ using BytLabs.Application.Exceptions;
 using BytLabs.Domain.BusinessRules;
 using BytLabs.Domain.Exceptions;
 
-namespace BytLabs.Api.Graphql.Error.Business
+namespace BytLabs.Api.Graphql.ErrorTypes.Business
 {
     /// <summary>
     /// Represents a business error that can occur during application execution.

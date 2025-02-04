@@ -1,5 +1,5 @@
-using BytLabs.Api.Graphql.Error.Business;
-using BytLabs.Api.Graphql.Error.Validation;
+using BytLabs.Api.Graphql.ErrorTypes.Business;
+using BytLabs.Api.Graphql.ErrorTypes.Validation;
 using BytLabs.Api.Graphql.InputTypes;
 using BytLabs.Api.Graphql.ObjectTypes;
 using BytLabs.Domain.Entities;
