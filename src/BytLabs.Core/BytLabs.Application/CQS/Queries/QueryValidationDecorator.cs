@@ -50,7 +50,7 @@ namespace BytLabs.Application.CQS.Queries
                     {
                         _logger.LogTrace($"Executing validator: {validator.GetType().Name}");
 
-                        await validator.ValidateAndThrowAsync(request, cancellationToken);
+                        await validator.ValidateQueryAndThrowAsync<TRequest, TResponse>(request, cancellationToken);
                     }
                 }
             }

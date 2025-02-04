@@ -37,7 +37,7 @@ namespace BytLabs.Application.CQS.Commands
         /// <param name="next">The next handler in the pipeline</param>
         /// <param name="cancellationToken">The cancellation token</param>
         /// <returns>The response from the command handler</returns>
-        /// <exception cref="ValidationException">Thrown when validation fails</exception>
+        /// <exception cref="CommandValidationException">Thrown when validation fails</exception>
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             IValidator<TRequest>[]? validators = _serviceProvider.GetServices<IValidator<TRequest>>().ToArray();
@@ -49,7 +49,7 @@ namespace BytLabs.Application.CQS.Commands
                     {
                         _logger.LogTrace($"Executing validator: {validator.GetType().Name}");
 
-                        await validator.ValidateAndThrowAsync(request, cancellationToken);
+                        await validator.ValidateCommandAndThrowAsync(request, cancellationToken);
                     }
                 else
                     _logger.LogTrace(GetValidationMessage("Validators not found"));

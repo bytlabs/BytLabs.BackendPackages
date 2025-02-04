@@ -1,4 +1,5 @@
-using FluentValidation;
+using BytLabs.Application.CQS.Commands;
+using BytLabs.Application.CQS.Queries;
 
 namespace BytLabs.Api.Graphql.Error.Validation
 {
@@ -22,7 +23,22 @@ namespace BytLabs.Api.Graphql.Error.Validation
         /// </summary>
         /// <param name="ex">The validation exception to convert.</param>
         /// <returns>A new ValidationError instance containing all validation failures.</returns>
-        public static ValidationError CreateErrorFrom(ValidationException ex)
+        public static ValidationError CreateErrorFrom(CommandValidationException ex)
+        {
+            return new ValidationError
+            {
+                Fields = ex.Errors.Select(err =>
+                    new FieldError
+                    {
+                        Code = err.ErrorCode,
+                        Field = err.PropertyName,
+                        Message = err.ErrorMessage
+                    })
+                    .ToList()
+            };
+        }
+
+        public static ValidationError CreateErrorFrom(QueryValidationException ex)
         {
             return new ValidationError
             {
