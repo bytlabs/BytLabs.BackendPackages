@@ -20,6 +20,20 @@ namespace BytLabs.Api.Graphql
                 .AddBytLabsDefaults();
         }
 
+        public static IRequestExecutorBuilder AddDefaultQuerySettings(
+            this IRequestExecutorBuilder requestExecutorBuilder, string? name)
+        {
+            return requestExecutorBuilder
+                .ModifyPagingOptions(config =>
+                {
+                    config.MaxPageSize = 50;
+                })
+                .AddProjections(name)
+                .AddFiltering(name)
+                .AddSorting(name)
+                .AddQueryableCursorPagingProvider(name);
+        }
+
         /// <summary>
         /// Registers Observability, Auth, Mutation conventions and query settings.
         /// </summary>
@@ -30,7 +44,6 @@ namespace BytLabs.Api.Graphql
         {
             return requestExecutorBuilder
                 .AddObservability()
-                .AddQuerySettings()
                 .AddMutationConventions()
                 .AddDefaultRuntimeTypeMappings()
                 .AddAuthorization();
@@ -58,20 +71,6 @@ namespace BytLabs.Api.Graphql
             return requestExecutorBuilder
                 .BindRuntimeType<Guid, IdType>()
                 .BindRuntimeType<ulong, StringType>();
-        }
-
-        internal static IRequestExecutorBuilder AddQuerySettings(
-            this IRequestExecutorBuilder requestExecutorBuilder)
-        {
-            return requestExecutorBuilder
-                .ModifyPagingOptions(config=>
-                {
-                    config.MaxPageSize = 50;
-                })
-                .AddProjections()
-                .AddFiltering()
-                .AddSorting()
-                .AddQueryableCursorPagingProvider();
         }
     }
 }
