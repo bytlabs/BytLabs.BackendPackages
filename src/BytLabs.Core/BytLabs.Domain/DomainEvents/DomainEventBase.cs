@@ -6,14 +6,14 @@ public abstract class DomainEventBase : IDomainEvent
     public string? CreatedBy { get; set; }
 }
 
-public abstract class DomainEventBase<T> : DomainEventBase
+public abstract class DomainEventBase<TId, TData> : DomainEventBase
 {
-    public DomainEventBase(Guid id, T data)
+    public DomainEventBase(TId id, TData data)
     {
         Id = id;
         Data = data;
     }
 
-    public Guid Id { get; private set; }
-    public T Data { get; private set; }
+    public TId Id { get; private set; }
+    public TData Data { get; private set; }
 }
