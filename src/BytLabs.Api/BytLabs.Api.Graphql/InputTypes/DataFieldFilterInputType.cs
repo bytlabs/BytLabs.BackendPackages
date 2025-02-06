@@ -1,17 +1,14 @@
 ﻿
 using BytLabs.Application.DynamicData;
-using HotChocolate.Data.Filters;
 
 namespace BytLabs.Api.Graphql.InputTypes
 {
-    public class DataFieldFilterInputType : FilterInputType<DataFieldFilter>
+    public class DataFieldFilterInputType : InputObjectType<DataFieldFilter>
     {
-        protected override void Configure(IFilterInputTypeDescriptor<DataFieldFilter> descriptor)
+        protected override void Configure(IInputObjectTypeDescriptor<DataFieldFilter> descriptor)
         {
             descriptor.Name("DataFieldFilterInput");
-            descriptor.BindFieldsImplicitly()
-                .AllowAnd(false)
-                .AllowOr(false);
+            descriptor.BindFieldsImplicitly();
         }
     }
 }
