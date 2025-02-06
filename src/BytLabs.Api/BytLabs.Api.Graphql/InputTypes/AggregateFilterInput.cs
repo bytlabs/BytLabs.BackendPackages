@@ -1,7 +1,7 @@
-﻿using BytLabs.Domain.DynamicData;
+﻿using BytLabs.Application.DynamicData;
+using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
 using HotChocolate.Data.Filters;
-using HotChocolate.Types;
 
 namespace BytLabs.Api.Graphql.InputTypes
 {
@@ -14,7 +14,7 @@ namespace BytLabs.Api.Graphql.InputTypes
 
             if(CheckIfImplementsInterface<TAggregate, IHaveDynamicData>())
             {
-                descriptor.Field(nameof(IHaveDynamicData.Data)).Type<DataFilterInputType>();
+                descriptor.Field(nameof(IHaveDynamicData.Data).ToLower()).Type<DataFilterInputType>();
             }
         }
 
@@ -22,5 +22,18 @@ namespace BytLabs.Api.Graphql.InputTypes
         {
             return typeof(TInterface).IsInterface && typeof(TInterface).IsAssignableFrom(typeof(TType));
         }
+    }
+
+    /// <summary>
+    /// Helper class to retrieve dynamic data filter object
+    /// </summary>
+    public sealed class FilterHavingDynamicData
+    {
+        public FilterHavingDynamicData(DataFilter data)
+        {
+            Data = data;
+        }
+
+        public DataFilter Data { get; private set; }
     }
 }
