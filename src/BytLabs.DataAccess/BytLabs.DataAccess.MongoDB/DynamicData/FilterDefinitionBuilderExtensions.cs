@@ -1,6 +1,4 @@
 ﻿using BytLabs.Application.DynamicData;
-using BytLabs.CandidateManagement.Infrastructure.Utils.Metadata.Application;
-using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Domain.DynamicData;
 using MongoDB.Bson;
 using MongoDB.Driver;
