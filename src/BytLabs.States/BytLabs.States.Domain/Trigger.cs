@@ -1,9 +1,9 @@
-﻿using BytLabs.Domain.Entities;
-using BytLabs.Domain.ValueObjects;
+﻿using BytLabs.Domain.ValueObjects;
 
 namespace BytLabs.States.Domain
 {
-    public class Trigger : ValueObject
+    [Serializable]
+    public sealed class Trigger : ValueObject
     {
         public Trigger(string name)
         {

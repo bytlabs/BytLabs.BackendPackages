@@ -1,3 +1,4 @@
+using BytLabs.Api.Graphql.InputTypes;
 using BytLabs.Api.Graphql.Observability;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,13 @@ namespace BytLabs.Api.Graphql
             return serviceCollection
                 .AddGraphQLServer()
                 .AddBytLabsDefaults();
+        }
+
+        public static IRequestExecutorBuilder AddDynamicDataTypes(
+            this IRequestExecutorBuilder requestExecutorBuilder)
+        {
+            return requestExecutorBuilder
+                .AddType<DataFilterInputType>();
         }
 
         public static IRequestExecutorBuilder AddDefaultQuerySettings(
