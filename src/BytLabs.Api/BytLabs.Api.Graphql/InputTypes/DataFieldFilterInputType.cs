@@ -4,11 +4,11 @@ using HotChocolate.Data.Filters;
 
 namespace BytLabs.Api.Graphql.InputTypes
 {
-    public class DataFilterInputType : FilterInputType<DataFilter>
+    public class DataFieldFilterInputType : FilterInputType<DataFieldFilter>
     {
-        protected override void Configure(IFilterInputTypeDescriptor<DataFilter> descriptor)
+        protected override void Configure(IFilterInputTypeDescriptor<DataFieldFilter> descriptor)
         {
-            descriptor.Name("DataFilterInput");
+            descriptor.Name("DataFieldFilterInput");
             descriptor.BindFieldsImplicitly()
                 .AllowAnd(false)
                 .AllowOr(false);
