@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using BytLabs.Application.DataAccess;
+using BytLabs.Application.UserContext;
 using BytLabs.Domain.DomainEvents;
 using BytLabs.Domain.Entities;
 using MediatR;
@@ -23,9 +24,12 @@ namespace BytLabs.DataAccess.DomainEvents;
 /// </remarks>
 public class DomainEventDispatcherDecorator<TAggregateRoot, TIdentity>(
     IRepository<TAggregateRoot, TIdentity> repository,
+    IUserContextProvider userContextProvider,
     IMediator mediator) : IRepository<TAggregateRoot, TIdentity>
     where TAggregateRoot : IAggregateRoot<TIdentity>
 {
+    private readonly IUserContextProvider userContextProvider = userContextProvider;
+
     /// <inheritdoc />
     /// <remarks>
     /// Retrieves the aggregate by ID without publishing any domain events.
@@ -169,6 +173,8 @@ public class DomainEventDispatcherDecorator<TAggregateRoot, TIdentity>(
         entity.ClearDomainEvents();
         foreach (IDomainEvent domainEvent in domainEvents)
         {
+            domainEvent.CreatedBy = userContextProvider.GetUserId();
+            domainEvent.CreatedAt = DateTime.UtcNow;
             await mediator.Publish(domainEvent, cancellationToken);
         }
     }

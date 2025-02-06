@@ -1,6 +1,7 @@
 using BytLabs.Application.DataAccess;
 using BytLabs.DataAccess.MongoDB.Configuration;
 using BytLabs.DataAccess.MongoDB.Conventions;
+using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Domain.Audit;
 using BytLabs.Domain.Entities;
 using BytLabs.Multitenancy;
@@ -12,6 +13,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using System.Text.Json;
 
 namespace BytLabs.DataAccess.MongoDB
 {
@@ -31,12 +33,19 @@ namespace BytLabs.DataAccess.MongoDB
 
             RegisterBaseEntityMongoClassMap();
 
+            RegisterDynamicDataSerializer();
+
             RegisterMongoDbServices(service, config);
 
             AddHealthChecks(service, config);
 
 
             return service;
+        }
+
+        private static void RegisterDynamicDataSerializer()
+        {
+            BsonSerializer.TryRegisterSerializer(typeof(JsonElement), new JsonElementSerializer());
         }
 
         public static IServiceCollection AddMongoRepository<TEntity, TIdentity>(this IServiceCollection services,

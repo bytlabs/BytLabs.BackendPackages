@@ -1,3 +1,4 @@
+using BytLabs.Api.Graphql.InputTypes;
 using BytLabs.Api.Graphql.Observability;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +18,28 @@ namespace BytLabs.Api.Graphql
         {
             return serviceCollection
                 .AddGraphQLServer()
-                .AddBytLabsDefaults()
-                .AddErrorTypes();
+                .AddBytLabsDefaults();
+        }
+
+        public static IRequestExecutorBuilder AddDynamicDataTypes(
+            this IRequestExecutorBuilder requestExecutorBuilder)
+        {
+            return requestExecutorBuilder
+                .AddType<DataOperationFilterInputType>();
+        }
+
+        public static IRequestExecutorBuilder AddDefaultQuerySettings(
+            this IRequestExecutorBuilder requestExecutorBuilder, string? name)
+        {
+            return requestExecutorBuilder
+                .ModifyPagingOptions(config =>
+                {
+                    config.MaxPageSize = 50;
+                })
+                .AddProjections(name)
+                .AddFiltering(name)
+                .AddSorting(name)
+                .AddQueryableCursorPagingProvider(name);
         }
 
         /// <summary>
@@ -31,7 +52,6 @@ namespace BytLabs.Api.Graphql
         {
             return requestExecutorBuilder
                 .AddObservability()
-                .AddQuerySettings()
                 .AddMutationConventions()
                 .AddDefaultRuntimeTypeMappings()
                 .AddAuthorization();
@@ -59,20 +79,6 @@ namespace BytLabs.Api.Graphql
             return requestExecutorBuilder
                 .BindRuntimeType<Guid, IdType>()
                 .BindRuntimeType<ulong, StringType>();
-        }
-
-        internal static IRequestExecutorBuilder AddQuerySettings(
-            this IRequestExecutorBuilder requestExecutorBuilder)
-        {
-            return requestExecutorBuilder
-                .ModifyPagingOptions(config=>
-                {
-                    config.MaxPageSize = 50;
-                })
-                .AddProjections()
-                .AddFiltering()
-                .AddSorting()
-                .AddQueryableCursorPagingProvider();
         }
     }
 }

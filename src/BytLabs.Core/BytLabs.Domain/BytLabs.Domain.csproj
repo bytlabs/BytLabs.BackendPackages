@@ -8,10 +8,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
   <ItemGroup>
+	  <PackageReference Include="FluentValidation" Version="11.9.0" />
 	  <PackageReference Include="GuardClauses" Version="1.2.4" />
 	  <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
   </ItemGroup>

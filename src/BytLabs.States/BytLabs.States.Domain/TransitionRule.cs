@@ -4,7 +4,8 @@ using RulesEngine.Models;
 
 namespace BytLabs.States.Domain
 {
-    public class TransitionRule : Entity<Guid>
+    [Serializable]
+    public sealed class TransitionRule : Entity<Guid>
     {
         public TransitionRule(Guid id, string name, string expression) : base(id)
         {
