@@ -25,8 +25,7 @@ namespace BytLabs.Api.Graphql
             this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
-                .AddType<DataFilterInputType>()
-                .AddType<DataFieldFilterInputType>();
+                .AddType<DataOperationFilterInputType>();
         }
 
         public static IRequestExecutorBuilder AddDefaultQuerySettings(

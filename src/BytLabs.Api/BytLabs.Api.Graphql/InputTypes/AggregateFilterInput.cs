@@ -14,7 +14,7 @@ namespace BytLabs.Api.Graphql.InputTypes
             if(CheckIfImplementsInterface<TAggregate, IHaveDynamicData>())
             {
                 descriptor.Field(nameof(IHaveDynamicData.Data).ToLower())
-                    .Type<DataFilterInputType>()
+                    .Type<DataOperationFilterInputType>()
                     .MakeNullable();
             }
         }
