@@ -30,8 +30,8 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
             where T : IHaveDynamicData
         {
             var emptyFilterList = new List<FilterDefinition<T>>() { filterBuilder.Empty };
-            return filterBuilder.And(input.And?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)) )
-                             & filterBuilder.Or(input.Or?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)))
+            return filterBuilder.And(input.And?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)) ?? emptyFilterList)
+                             & filterBuilder.Or(input.Or?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)) ?? emptyFilterList)
                              & (input.Data is null ? filterBuilder.Empty : filterBuilder.FilterDataField(input.Data));
         }
 
