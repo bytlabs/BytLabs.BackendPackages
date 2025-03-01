@@ -33,7 +33,7 @@ namespace BytLabs.DataAccess.MongoDB
 
             RegisterBaseEntityMongoClassMap();
 
-            //RegisterDynamicDataSerializer();
+            RegisterDynamicDataSerializer();
 
             RegisterMongoDbServices(service, config);
 
