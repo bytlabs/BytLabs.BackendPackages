@@ -11,7 +11,11 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
     {
         public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, JsonElement value)
         {
-            if (value.ValueKind == JsonValueKind.Null || value.ValueKind == JsonValueKind.Undefined) return;
+            if (value.ValueKind == JsonValueKind.Null || value.ValueKind == JsonValueKind.Undefined)
+            {
+                context.Writer.WriteNull();
+                return;
+            }
 
             var jsonString = value.ToString();
             var bsonDocument = BsonDocument.Parse(jsonString);
@@ -21,11 +25,13 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
 
         public override JsonElement Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
-            if (context.Reader.State == BsonReaderState.EndOfDocument) return default;
+            if (context.Reader.CurrentBsonType == BsonType.Null || context.Reader.CurrentBsonType == BsonType.Undefined)
+            {
+                context.Reader.ReadNull();
+                return default;
+            }
 
             var data = BsonSerializer.Deserialize<BsonDocument>(context.Reader);
-            if (data == null) return default;
-
             data.ConvertBsonDatesToIsoStrings();
             var jsonString = data.ToString();
             return JsonDocument.Parse(jsonString).RootElement;
