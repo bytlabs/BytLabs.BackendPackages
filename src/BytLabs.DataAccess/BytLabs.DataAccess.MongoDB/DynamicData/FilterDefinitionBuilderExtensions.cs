@@ -27,13 +27,40 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
         }
 
         public static FilterDefinition<T> FilterData<T>(this FilterDefinitionBuilder<T> filterBuilder, InputFilteringDynamicData input)
-            where T : IHaveDynamicData
+    where T : IHaveDynamicData
         {
-            var emptyFilterList = new List<FilterDefinition<T>>() { filterBuilder.Empty };
-            return filterBuilder.And(input.And?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)) ?? emptyFilterList)
-                             & filterBuilder.Or(input.Or?.Select(field => field.Data is null? filterBuilder.Empty : filterBuilder.FilterDataField(field.Data)) ?? emptyFilterList)
-                             & (input.Data is null ? filterBuilder.Empty : filterBuilder.FilterDataField(input.Data));
+            if (input == null)
+                return filterBuilder.Empty;
+
+            var filters = new List<FilterDefinition<T>>();
+
+            // Process 'And' conditions recursively
+            if (input.And?.Any() == true)
+            {
+                var andFilters = input.And.Select(field => filterBuilder.FilterData(field)).Where(f => f != filterBuilder.Empty);
+                if (andFilters.Any())
+                    filters.Add(filterBuilder.And(andFilters));
+            }
+
+            // Process 'Or' conditions recursively
+            if (input.Or?.Any() == true)
+            {
+                var orFilters = input.Or.Select(field => filterBuilder.FilterData(field)).Where(f => f != filterBuilder.Empty);
+                if (orFilters.Any())
+                    filters.Add(filterBuilder.Or(orFilters));
+            }
+
+            // Process single filter data
+            if (input.Data is not null)
+            {
+                var dataFilter = filterBuilder.FilterDataField(input.Data);
+                if (dataFilter != filterBuilder.Empty)
+                    filters.Add(dataFilter);
+            }
+
+            return filters.Any() ? filterBuilder.And(filters) : filterBuilder.Empty;
         }
+
 
         internal static BsonValue GetBsonValue(this DataOperationFilter operationInput)
         {
