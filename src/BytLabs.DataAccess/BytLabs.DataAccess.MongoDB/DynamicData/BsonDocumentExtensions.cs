@@ -13,7 +13,11 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
                 {
                     string strValue = element.Value.AsString;
 
-                    if (DateTime.TryParse(strValue, null, DateTimeStyles.RoundtripKind, out DateTime dateTime))
+                    if (DateTime.TryParseExact(strValue, 
+                        "yyyy-MM-ddTHH:mm:ssZ",
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, 
+                        out DateTime dateTime))
                     {
                         document[element.Name] = new BsonDateTime(dateTime);
                     }
