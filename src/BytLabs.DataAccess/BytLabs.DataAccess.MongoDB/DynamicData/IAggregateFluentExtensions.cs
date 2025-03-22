@@ -21,4 +21,12 @@ public static class IAggregateFluentExtensions
 
         return aggregateFluent.Match(matchDataFilter);
     }
+
+    public static IAggregateFluent<T> AppySortingWithDynamicData<T>(this IAggregateFluent<T> aggregate, List<SortInput>? order)
+    {
+        if (order is null || !order.Any()) return aggregate;
+
+        return aggregate.Sort(Builders<T>.Sort.Combine(order.Select(input => input.By == SortOrder.Asc ?
+            Builders<T>.Sort.Ascending(input.Path) : Builders<T>.Sort.Descending(input.Path))));
+    }
 }
