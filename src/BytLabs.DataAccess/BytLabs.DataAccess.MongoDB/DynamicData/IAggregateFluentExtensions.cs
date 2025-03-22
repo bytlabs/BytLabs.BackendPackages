@@ -22,7 +22,7 @@ public static class IAggregateFluentExtensions
         return aggregateFluent.Match(matchDataFilter);
     }
 
-    public static IAggregateFluent<T> AppySortingWithDynamicData<T>(this IAggregateFluent<T> aggregate, List<SortInput>? order)
+    public static IAggregateFluent<T> AppySortingWithDynamicData<T>(this IAggregateFluent<T> aggregate, List<SortInput<T>>? order)
     {
         if (order is null || !order.Any()) return aggregate;
 

@@ -9,7 +9,7 @@ public enum SortOrder
 }
 
 
-public class SortInput<TAggregate, TId> where TAggregate : IAggregateRoot<TId>
+public class SortInput<T>
 {
     public string Path { get; set; } = default!;
     public SortOrder By { get; set; }
