@@ -1,4 +1,6 @@
-﻿namespace BytLabs.Application.DynamicData;
+﻿using BytLabs.Domain.Entities;
+
+namespace BytLabs.Application.DynamicData;
 
 public enum SortOrder
 {
@@ -7,7 +9,7 @@ public enum SortOrder
 }
 
 
-public class SortInput
+public class SortInput<TAggregate, TId> where TAggregate : IAggregateRoot<TId>
 {
     public string Path { get; set; } = default!;
     public SortOrder By { get; set; }
