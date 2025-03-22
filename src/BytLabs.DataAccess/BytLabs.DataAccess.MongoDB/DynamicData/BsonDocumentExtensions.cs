@@ -5,6 +5,7 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
 {
     public static class BsonDocumentExtensions
     {
+        public const string ISO_DATE_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffZ";
         public static void ConvertIsoStringsToBsonDates(this BsonDocument document)
         {
             foreach (var element in document.ToList()) // Avoid modifying while iterating
@@ -13,7 +14,11 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
                 {
                     string strValue = element.Value.AsString;
 
-                    if (DateTime.TryParse(strValue, null, DateTimeStyles.RoundtripKind, out DateTime dateTime))
+                    if (DateTime.TryParseExact(strValue,
+                        ISO_DATE_FORMAT,
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, 
+                        out DateTime dateTime))
                     {
                         document[element.Name] = new BsonDateTime(dateTime);
                     }
@@ -59,7 +64,7 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
             {
                 if (element.Value.IsBsonDateTime)
                 {
-                    document[element.Name] = element.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    document[element.Name] = element.Value.ToUniversalTime().ToString(ISO_DATE_FORMAT);
                 }
                 else if (element.Value.IsBsonDocument)
                 {
@@ -78,7 +83,7 @@ namespace BytLabs.DataAccess.MongoDB.DynamicData
             {
                 if (array[i].IsBsonDateTime)
                 {
-                    array[i] = array[i].ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                    array[i] = array[i].ToUniversalTime().ToString(ISO_DATE_FORMAT);
                 }
                 else if (array[i].IsBsonDocument)
                 {
