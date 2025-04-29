@@ -11,7 +11,7 @@ namespace BytLabs.Application.CQS.Decorators
     /// <typeparam name="TRequest">The type of the request being handled</typeparam>
     /// <typeparam name="TResponse">The type of the response being returned</typeparam>
     internal sealed class LoggingDecorator<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-       where TRequest : IRequest<TResponse>
+       where TRequest : IBaseRequest
     {
         private readonly ILogger<LoggingDecorator<TRequest, TResponse>> _logger;
 
