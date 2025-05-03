@@ -18,13 +18,12 @@ namespace BytLabs.Observability
         /// Gets or sets the URL of the OpenTelemetry collector.
         /// This is where telemetry data will be sent.
         /// </summary>
-        [Required]
-        public string CollectorUrl { get; set; } = null!;
+        public string? CollectorUrl { get; set; } = null!;
 
         /// <summary>
         /// Gets the URI of the OpenTelemetry collector, constructed from the CollectorUrl.
         /// </summary>
-        public Uri CollectorUri => new(CollectorUrl);
+        public Uri? CollectorUri => CollectorUrl is null? null : new(CollectorUrl);
 
         /// <summary>
         /// Gets or sets the timeout in milliseconds for telemetry operations.
