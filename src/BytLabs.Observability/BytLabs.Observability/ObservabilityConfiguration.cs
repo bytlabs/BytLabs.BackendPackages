@@ -29,7 +29,6 @@ namespace BytLabs.Observability
         /// Gets or sets the timeout in milliseconds for telemetry operations.
         /// Default value is 1000 milliseconds (1 second).
         /// </summary>
-        [Required]
         public int Timeout { get; set; } = 1000;
 
         /// <summary>
