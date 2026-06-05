@@ -36,11 +36,11 @@ namespace BytLabs.Application
             services.AddMediatR(configuration =>
             {
                 configuration.RegisterServicesFromAssemblies(assemblyList.ToArray());
+                configuration.AddOpenBehavior(typeof(LoggingDecorator<,>));
                 options?.Invoke(configuration);
             });
 
             services
-                .AddLoggingDecorator()
                 .AddCommandsValidationDecorator(assemblies)
                 .AddQueriesValidationDecorator(assemblies);
 
@@ -93,16 +93,5 @@ namespace BytLabs.Application
             return services;
         }
 
-        /// <summary>
-        /// Adds request/response logging pipeline.
-        /// </summary>
-        /// <param name="services">The service collection to configure</param>
-        private static IServiceCollection AddLoggingDecorator(this IServiceCollection services)
-        {
-            if (!services.Any(x => x.ImplementationType == typeof(LoggingDecorator<,>)))
-                services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingDecorator<,>));
-
-            return services;
-        }
     }
 }

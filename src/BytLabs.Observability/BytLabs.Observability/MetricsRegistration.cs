@@ -36,6 +36,7 @@ namespace BytLabs.Observability
 
                 configureMetrics?.Invoke(meterProviderBuilder);
 
+                if(observabilityConfiguration.CollectorUri is not null)
                 metrics
                     .AddOtlpExporter(options =>
                     {

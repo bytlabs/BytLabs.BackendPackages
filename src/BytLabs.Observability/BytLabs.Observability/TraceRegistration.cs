@@ -44,7 +44,8 @@ namespace BytLabs.Observability
                         options.RecordException = true;
                     });
 
-                tracing
+                if (observabilityConfiguration.CollectorUri is not null)
+                    tracing
                     .AddOtlpExporter(options =>
                     {
                         options.Endpoint = observabilityConfiguration.CollectorUri;

@@ -31,9 +31,4 @@
     <ProjectReference Include="..\BytLabs.Domain\BytLabs.Domain.csproj" />
   </ItemGroup>
 
-
-	<ItemGroup>
-	  <Folder Include="Mapping\" />
-	</ItemGroup>
-
 </Project>

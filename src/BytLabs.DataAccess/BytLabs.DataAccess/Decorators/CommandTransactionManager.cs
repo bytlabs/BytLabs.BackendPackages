@@ -91,14 +91,15 @@ internal class CommandTransactionManager(
         ICommandBase command,
         CancellationToken cancellationToken = default)
     {
-        _activeCommands.Pop();
-        if (_activeCommands.Count == 0)
+        if ((_activeCommands.Count - 1) <= 0)
         {
             await unitOfWork.CommitAsync();
+            _activeCommands.Pop();
             logger.LogTrace("Transaction Completed");
         }
         else
         {
+            _activeCommands.Pop();
             logger.LogTrace("{commandCount} Commands left", _activeCommands.Count);
         }
     }
