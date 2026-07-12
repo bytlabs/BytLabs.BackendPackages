@@ -17,6 +17,7 @@ provides and how to use it, with code examples. Packages are versioned together 
 |---------|-------------------|
 | [BytLabs.DataAccess](BytLabs.DataAccess.md) | Provider-agnostic unit-of-work, command transactions, domain-event dispatch decorator |
 | [BytLabs.DataAccess.MongoDB](BytLabs.DataAccess.MongoDB.md) | MongoDB `IRepository`, per-tenant database, BSON setup, dynamic-data query helpers, health checks |
+| [BytLabs.DataAccess.EntityFramework](BytLabs.DataAccess.EntityFramework.md) | EF Core `IRepository`, config-driven per-tenant DbContext, unit of work, model helpers, health check |
 
 ### API / hosting
 | Package | What it gives you |
@@ -51,6 +52,8 @@ flowchart LR
     DataAccess[BytLabs.DataAccess] --> App
     Mongo[BytLabs.DataAccess.MongoDB] --> DataAccess
     Mongo --> MT[BytLabs.Multitenancy]
+    Ef[BytLabs.DataAccess.EntityFramework] --> DataAccess
+    Ef --> MT
     Gql[BytLabs.Api.Graphql] --> App
     Gql --> Domain
     Api[BytLabs.Api] --> App

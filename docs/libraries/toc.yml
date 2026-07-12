@@ -8,6 +8,8 @@
   href: BytLabs.DataAccess.md
 - name: BytLabs.DataAccess.MongoDB
   href: BytLabs.DataAccess.MongoDB.md
+- name: BytLabs.DataAccess.EntityFramework
+  href: BytLabs.DataAccess.EntityFramework.md
 - name: BytLabs.Api
   href: BytLabs.Api.md
 - name: BytLabs.Api.Graphql
