@@ -91,8 +91,31 @@ public static class ServiceCollectionExtensions
         services.AddDomainEventsDecorator<TEntity, TIdentity>();
 
         // Read side: a no-tracking queryable over the current tenant's DbContext, for queries only.
+        // The DbSet is resolved by locating the model's entity type by CLR type name and invoking the
+        // parameterless DbContext.Set<T>() for that exact CLR type — rather than Set<TEntity>()
+        // directly. This avoids "Cannot create a DbSet ... not part of the model" failures when the
+        // model's mapped CLR type does not match the requested TEntity by identity.
         services.TryAddScoped<IQueryable<TEntity>>(sp =>
-            sp.GetRequiredService<DbContext>().Set<TEntity>().AsNoTracking());
+        {
+            var efDatabase = sp.GetRequiredService<DbContext>();
+
+            var entityType = efDatabase.Model.GetEntityTypes()
+                .FirstOrDefault(e => e.ClrType.Name == typeof(TEntity).Name);
+
+            if (entityType == null)
+                throw new InvalidOperationException($"Entity {typeof(TEntity).Name} not found.");
+
+            var dbSetMethod = typeof(DbContext).GetMethods()
+                .First(m => m.Name == nameof(DbContext.Set)
+                            && m.GetGenericArguments().Length == 1
+                            && m.GetParameters().Length == 0);
+
+            var genericMethod = dbSetMethod.MakeGenericMethod(entityType.ClrType);
+
+            var dbSet = genericMethod.Invoke(efDatabase, null)!;
+
+            return ((IQueryable<TEntity>)dbSet).AsNoTracking();
+        });
 
         return services;
     }
