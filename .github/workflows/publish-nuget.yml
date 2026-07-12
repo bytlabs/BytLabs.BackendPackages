@@ -1,9 +1,18 @@
 name: Publish NuGet Packages
 
+# Publishing to nuget.org uses Trusted Publishing (OIDC), so no long-lived NuGet API key is needed.
+# Prerequisites (one-time, on nuget.org → your username → Trusted Publishing):
+#   - Repository Owner: <this repo's owner>
+#   - Repository:       <this repo's name>
+#   - Workflow File:    publish-nuget.yml   (file name only, no path)
+#   - Environment:      (leave empty — this workflow does not use a GitHub environment)
+# And add a repository secret NUGET_USER = your nuget.org username (profile name, NOT your email).
+# See https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing
+
 permissions:
   contents: read
   packages: write
-  id-token: write
+  id-token: write   # required for the OIDC token used by Trusted Publishing
 
 on:
   release:
@@ -21,10 +30,10 @@ jobs:
     needs: test
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0'
 
@@ -64,15 +73,22 @@ jobs:
               dotnet pack "$proj" --configuration Release --output ./nuget-packages
           done
 
+      # Mint a short-lived nuget.org API key via OIDC Trusted Publishing.
+      # Requested immediately before publishing because the key is only valid for ~1 hour.
+      - name: NuGet login (OIDC -> temporary API key)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish NuGet Packages
         run: |
           search_directory="./nuget-packages"
           find "$search_directory" -name "*.nupkg" | while IFS= read -r pkg; do
               echo "Pushing package: $pkg"
-              dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
-              dotnet nuget push "$pkg" --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+              dotnet nuget push "$pkg" --source https://api.nuget.org/v3/index.json --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --skip-duplicate
+              dotnet nuget push "$pkg" --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --api-key "${{ secrets.GITHUB_TOKEN }}" --skip-duplicate
           done
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
