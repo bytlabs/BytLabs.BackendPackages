@@ -26,7 +26,7 @@ public interface IRepository<TAggregateRoot, TIdentity> where TAggregateRoot : I
     /// <param name="id">The unique identifier of the entity</param>
     /// <param name="cancellationToken">Cancellation token for the operation</param>
     /// <returns>The found entity or null if not found</returns>
-    Task<TAggregateRoot> FindByIdAsync(TIdentity id, CancellationToken cancellationToken);
+    Task<TAggregateRoot?> FindByIdAsync(TIdentity id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retrieves a single entity from the repository. Returns null if no entity exists.
@@ -34,7 +34,7 @@ public interface IRepository<TAggregateRoot, TIdentity> where TAggregateRoot : I
     /// <param name="cancellationToken">Cancellation token for the operation</param>
     /// <returns>The single entity or null if none exists</returns>
     /// <exception cref="InvalidOperationException">Thrown when multiple entities are found</exception>
-    Task<TAggregateRoot> SingleOrDefaultAsync(CancellationToken cancellationToken);
+    Task<TAggregateRoot?> SingleOrDefaultAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a new entity in the repository.

@@ -39,7 +39,7 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
     }
 
     /// <inheritdoc />
-    public async Task<TEntity> FindByIdAsync(TIdentity id, CancellationToken cancellationToken)
+    public async Task<TEntity?> FindByIdAsync(TIdentity id, CancellationToken cancellationToken)
     {
         return await _dbSet
             .Where(x => x.Id!.Equals(id))
@@ -48,7 +48,7 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
     }
 
     /// <inheritdoc />
-    public async Task<TEntity> SingleOrDefaultAsync(CancellationToken cancellationToken)
+    public async Task<TEntity?> SingleOrDefaultAsync(CancellationToken cancellationToken)
     {
         var count = await _dbSet.CountAsync(cancellationToken);
         if (count > 1)
