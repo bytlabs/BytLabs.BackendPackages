@@ -71,13 +71,29 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers the EF repository for an aggregate root, wrapped with the domain-event dispatch decorator.
+    /// Registers the data-access services for an aggregate root:
+    /// <list type="bullet">
+    /// <item><description>
+    /// <see cref="IRepository{TEntity,TIdentity}"/> (write side) — tracked, audited, domain-event
+    /// dispatching; use it in command handlers.
+    /// </description></item>
+    /// <item><description>
+    /// <see cref="IQueryable{TEntity}"/> (read side) — a no-tracking <c>DbSet</c> for the current
+    /// tenant's <c>DbContext</c>; use it in query handlers / resolvers.
+    /// </description></item>
+    /// </list>
     /// </summary>
     public static IServiceCollection AddEfRepository<TEntity, TIdentity>(this IServiceCollection services)
         where TEntity : class, IAggregateRoot<TIdentity>
     {
+        // Write side: tracked repository + domain-event dispatch decorator.
         services.TryAddScoped<IRepository<TEntity, TIdentity>, EfRepository<TEntity, TIdentity>>();
         services.AddDomainEventsDecorator<TEntity, TIdentity>();
+
+        // Read side: a no-tracking queryable over the current tenant's DbContext, for queries only.
+        services.TryAddScoped<IQueryable<TEntity>>(sp =>
+            sp.GetRequiredService<DbContext>().Set<TEntity>().AsNoTracking());
+
         return services;
     }
 }
