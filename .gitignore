@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 _site/
 api/
+# Superpowers working docs (specs/plans) - local only
+docs/superpowers/
