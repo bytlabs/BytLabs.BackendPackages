@@ -42,14 +42,14 @@ public class DomainEventDispatcherDecorator<TAggregateRoot, TIdentity>(
     /// Attempts to find an aggregate by ID without publishing any domain events.
     /// Returns null if the aggregate is not found.
     /// </remarks>
-    public async Task<TAggregateRoot> FindByIdAsync(TIdentity id, CancellationToken cancellationToken) =>
+    public async Task<TAggregateRoot?> FindByIdAsync(TIdentity id, CancellationToken cancellationToken) =>
         await repository.FindByIdAsync(id, cancellationToken);
 
     /// <inheritdoc />
     /// <remarks>
     /// Returns a single aggregate or default value without publishing any domain events.
     /// </remarks>
-    public async Task<TAggregateRoot> SingleOrDefaultAsync(CancellationToken cancellationToken) =>
+    public async Task<TAggregateRoot?> SingleOrDefaultAsync(CancellationToken cancellationToken) =>
         await repository.SingleOrDefaultAsync(cancellationToken);
 
     /// <inheritdoc />

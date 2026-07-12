@@ -20,7 +20,7 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
     MongoUnitOfWork unitOfWork) : IRepository<TEntity, TIdentity> where TEntity : IAggregateRoot<TIdentity>
 {
     /// <inheritdoc />
-    public async Task<TEntity> FindByIdAsync(TIdentity id, CancellationToken cancellationToken)
+    public async Task<TEntity?> FindByIdAsync(TIdentity id, CancellationToken cancellationToken)
     {
         var query = unitOfWork.Session != null
             ? collection.Find(unitOfWork.Session, x => x.Id!.Equals(id))
@@ -40,7 +40,7 @@ internal sealed class MongoRepository<TEntity, TIdentity>(
     }
 
     /// <inheritdoc />
-    public async Task<TEntity> SingleOrDefaultAsync(CancellationToken cancellationToken)
+    public async Task<TEntity?> SingleOrDefaultAsync(CancellationToken cancellationToken)
     {
         var emptyFilter = Builders<TEntity>.Filter.Empty;
         var count = unitOfWork.Session != null
