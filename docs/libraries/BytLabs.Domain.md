@@ -18,7 +18,7 @@ dependencies — it is the pure domain core every service builds on.
 |------|-------|
 | Entities | `Entity<TId>`, `AggregateRootBase<TId>`, `IEntity`, `IAggregateRoot<TId>`, `IEntityId<TId>`, `ISoftDeletable` |
 | Value objects | `ValueObject`, `Metadata.EntityMetadata`, `Metadata.SubEntityMetadata` |
-| Domain events | `IDomainEvent`, `DomainEventBase`, `DomainEventBase<TId, TData>` |
+| Domain events | `IDomainEvent`, `IDomainEvent<TId>`, `IDomainEvent<TId, TData>`, `DomainEventBase`, `DomainEventBase<TId>`, `DomainEventBase<TId, TData>` |
 | Audit | `IAuditable`, `AuditInfo` |
 | Dynamic data | `IHaveDynamicData` |
 | Business rules | `BusinessRule<T>`, `AggregateBusinessRule<T>`, `BusinessRuleException` |
@@ -66,22 +66,37 @@ public sealed class Product : AggregateRootBase<Guid>
 
 ### Domain events
 
-`IDomainEvent : INotification` (MediatR) and requires `DateTime? CreatedAt` / `string? CreatedBy`.
-Derive events from `DomainEventBase` (these members are supplied) — note a **record cannot inherit a
-non-record base**, so payload-less events must be classes.
+`IDomainEvent : INotification` (MediatR) and carries audit metadata `DateTimeOffset CreatedAt` /
+`string CreatedBy` (both `init`-only). `DomainEventBase` and its generic variants are **records**, so
+derive your events as records too. The base supplies `CreatedAt` (defaults to `DateTimeOffset.UtcNow`)
+and `CreatedBy` (defaults to `"System"`); the infrastructure re-stamps them at publish time with the
+current user and timestamp (see below).
+
+Pick the base that matches the event's shape:
+
+| Base | Adds | Interface |
+|------|------|-----------|
+| `DomainEventBase` | `CreatedAt`, `CreatedBy` | `IDomainEvent` |
+| `DomainEventBase<TId>` | `Id` | `IDomainEvent<TId>` |
+| `DomainEventBase<TId, TData>` | `Id`, `Data` | `IDomainEvent<TId, TData>` |
 
 ```csharp
-// With payload
-public class ProductCreated(Guid id, CreateProduct data) : DomainEventBase<Guid, CreateProduct>(id, data);
+// With id + payload
+public record ProductCreated(Guid Id, CreateProduct Data)
+    : DomainEventBase<Guid, CreateProduct>(Id, Data);
 
-// Without payload
-public class ProductArchived(Guid productId) : DomainEventBase
-{
-    public Guid ProductId { get; } = productId;
-}
+// With id only
+public record ProductArchived(Guid Id) : DomainEventBase<Guid>(Id);
+
+// No id / no payload
+public record MaintenanceStarted() : DomainEventBase;
 ```
 
 Handle them with `BytLabs.Application.DomainEvents.DomainEventHandler<TEvent>`.
+
+> **Audit stamping:** `CreatedBy`/`CreatedAt` are set by `DomainEventDispatcherDecorator` when events
+> are dispatched after persistence. Because events are immutable records, the decorator publishes a
+> copy produced with a `with` expression rather than mutating the original.
 
 ### Value objects
 
