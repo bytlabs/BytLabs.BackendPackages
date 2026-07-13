@@ -173,9 +173,12 @@ public class DomainEventDispatcherDecorator<TAggregateRoot, TIdentity>(
         entity.ClearDomainEvents();
         foreach (IDomainEvent domainEvent in domainEvents)
         {
-            domainEvent.CreatedBy = userContextProvider.GetUserId();
-            domainEvent.CreatedAt = DateTime.UtcNow;
-            await mediator.Publish(domainEvent, cancellationToken);
+            // Domain events are immutable records, so stamp the audit metadata onto a copy
+            // and publish that copy. Events that don't derive from DomainEventBase are published as-is.
+            IDomainEvent @event = domainEvent is DomainEventBase baseEvent
+                ? baseEvent with { CreatedBy = userContextProvider.GetUserId(), CreatedAt = DateTimeOffset.UtcNow }
+                : domainEvent;
+            await mediator.Publish(@event, cancellationToken);
         }
     }
 }

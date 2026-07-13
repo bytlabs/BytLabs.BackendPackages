@@ -34,7 +34,7 @@ namespace BytLabs.States.Domain.Tests.Orders
         }
     }
 
-    public class OrderShippedEvent : DomainEventBase
+    public record OrderShippedEvent(OrderAggregateId Id) : DomainEventBase<OrderAggregateId>(Id)
     {
 
     }

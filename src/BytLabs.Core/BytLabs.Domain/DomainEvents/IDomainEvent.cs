@@ -9,6 +9,16 @@ namespace BytLabs.Domain.DomainEvents;
 /// </summary>
 public interface IDomainEvent : INotification
 {
-    public DateTime? CreatedAt { get; set; }
-    public string? CreatedBy { get; set; }
+    public DateTimeOffset CreatedAt { get;  init; }
+    public string CreatedBy { get; init; }
+}
+
+public interface IDomainEvent<TId> : IDomainEvent
+{
+    public TId Id { get; init; }    
+}
+
+public interface IDomainEvent<TId, TData> : IDomainEvent<TId>
+{
+    public TData Data { get; init; }
 }
