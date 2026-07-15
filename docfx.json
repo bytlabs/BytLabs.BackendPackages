@@ -62,7 +62,7 @@
       "_enableNewTab": true,
       "_disableContribution": false,
       "pdf": true,
-	  "_appLogoPath": "assets/favicons/favicon-32x32.png",
+	  "_appLogoPath": "assets/favicons/navbar-logo.png",
 	  "_appFaviconPath": "assets/favicons/favicon.ico"
     },
     "markdownEngineName": "markdig",

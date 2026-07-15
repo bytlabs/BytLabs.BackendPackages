@@ -20,7 +20,7 @@ BytLabs Backend Packages. It is intentionally short: follow the steps top to bot
 
 ## Choose your path
 
-- **Start from the template (recommended).** The `BytLabs.MicroserviceTemplate` is a working service
+- **Start from the template (recommended).** The [BytLabs.MicroserviceTemplate](https://github.com/bytlabs/BytLabs.MicroserviceTemplate) is a working service
   that doubles as a recipe catalog. Copy it, rename it, and start modelling your domain. This is the
   fastest way to get every convention right.
 - **Add the packages to an existing service.** Follow the steps below.

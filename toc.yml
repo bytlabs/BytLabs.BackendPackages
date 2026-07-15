@@ -1,9 +1,5 @@
 - name: Getting Started
   href: docs/getting-started.md
-- name: Library Reference
-  href: docs/libraries/toc.yml
   homepage: docs/libraries/index.md
 - name: API Reference
   href: api/
-- name: Blog
-  href: https://bytlabs.co/blog
