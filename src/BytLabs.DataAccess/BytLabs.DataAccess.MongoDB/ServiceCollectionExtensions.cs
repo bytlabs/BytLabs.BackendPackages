@@ -6,7 +6,6 @@ using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.Domain.Audit;
 using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
-using BytLabs.MicroserviceTemplate.Infrastructure.MongoDB;
 using BytLabs.Multitenancy;
 using GuardClauses;
 using Microsoft.Extensions.DependencyInjection;
