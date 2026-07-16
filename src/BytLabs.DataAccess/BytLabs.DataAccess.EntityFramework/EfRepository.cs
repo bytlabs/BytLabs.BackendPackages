@@ -9,8 +9,11 @@ namespace BytLabs.DataAccess.EntityFramework;
 
 /// <summary>
 /// Entity Framework implementation of the generic repository pattern for aggregate roots.
-/// Provides CRUD operations and batch processing. Persistence is deferred to the unit of work
-/// (changes are flushed by <see cref="EfUnitOfWork.CommitAsync"/>).
+/// Provides CRUD operations and batch processing. Each write flushes to the database via
+/// <c>SaveChangesAsync</c> so the change is visible to subsequent reads within the same request
+/// (e.g. domain-event handlers that re-load the aggregate). When an ambient transaction is open,
+/// the flush enlists in it and is not durable until <see cref="EfUnitOfWork.CommitAsync"/>
+/// (or discarded by <see cref="EfUnitOfWork.RollbackAsync"/>).
 /// </summary>
 /// <typeparam name="TEntity">The aggregate root entity type.</typeparam>
 /// <typeparam name="TIdentity">The type of the entity's identifier.</typeparam>
@@ -86,6 +89,7 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
         entity.AuditInfo.CreatedBy = _userContextProvider.GetUserId();
 
         await _dbSet.AddAsync(entity, cancellationToken);
+        await _database.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
@@ -97,14 +101,15 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
 
         UpdateAuditData(entity);
         _dbSet.Update(entity);
-        return await Task.FromResult(entity);
+        await _database.SaveChangesAsync(cancellationToken);
+        return entity;
     }
 
     /// <inheritdoc />
     public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken)
     {
         _dbSet.Remove(entity);
-        await Task.CompletedTask;
+        await _database.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc />
@@ -120,6 +125,7 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
         }
 
         await _dbSet.AddRangeAsync(aggregates, cancellationToken);
+        await _database.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc />
@@ -132,7 +138,7 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
             UpdateAuditData(aggregate);
 
         _dbSet.UpdateRange(aggregates);
-        await Task.CompletedTask;
+        await _database.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc />
@@ -143,13 +149,14 @@ internal sealed class EfRepository<TEntity, TIdentity> : IRepository<TEntity, TI
 
         var entities = await _dbSet.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
         _dbSet.RemoveRange(entities);
+        await _database.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task DeleteBatchAsync(List<TEntity> agregates, CancellationToken cancellationToken)
     {
         _dbSet.RemoveRange(agregates);
-        await Task.CompletedTask;
+        await _database.SaveChangesAsync(cancellationToken);
     }
 
     private void UpdateAuditData(TEntity aggregate)
