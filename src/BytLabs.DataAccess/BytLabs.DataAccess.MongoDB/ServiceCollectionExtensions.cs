@@ -2,6 +2,7 @@ using BytLabs.Application.DataAccess;
 using BytLabs.DataAccess.MongoDB.Configuration;
 using BytLabs.DataAccess.MongoDB.Conventions;
 using BytLabs.DataAccess.MongoDB.DynamicData;
+using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.Domain.Audit;
 using BytLabs.Domain.Entities;
 using BytLabs.Multitenancy;
@@ -67,14 +68,25 @@ namespace BytLabs.DataAccess.MongoDB
                 return mongoCollection;
             });
 
+            //DI generic IQuerable<TEntity> 
+            services.TryAddScoped(sp =>
+            {
+                var mongoRepositoryOptions = sp.GetRequiredService<MongoRepositoryOptions<TEntity>>();
+                var mongoDatabase = sp.GetRequiredService<IMongoDatabase>();
+                var mongoCollection = mongoDatabase.GetCollection<TEntity>(mongoRepositoryOptions.CollectionName);
+                return mongoCollection.AsQueryable();
+            });
+
             //Add generic mongo repository implementation
-            services.TryAddScoped<IRepository<TEntity, TIdentity>, MongoRepository<TEntity, TIdentity>>();
+            services.TryAddScoped<IRepository<TEntity, TIdentity>, MongoRepository<TEntity, TIdentity>>();           
 
             //Adds domain event dispatcher decorator around the generic mongo repository implementation
             services.AddDomainEventsDecorator<TEntity, TIdentity>();
 
             return services;
         }
+
+
 
         private static void RegisterMongoClassMapForEntities<TEntity, TIdentity>(bool autoMap, Action<BsonClassMap<TEntity>>? configureEntity) where TEntity : IAggregateRoot<TIdentity>
         {
