@@ -1,6 +1,6 @@
 using BytLabs.Domain.ValueObjects;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Common.DynamicData
+namespace BytLabs.Domain.DynamicData
 {
     // RECIPE: Value Object. A DataSchema is an immutable pair describing a piece of
     // dynamic/UI schema (e.g. a JSON-schema fragment + its UI hints). Equality is by value.

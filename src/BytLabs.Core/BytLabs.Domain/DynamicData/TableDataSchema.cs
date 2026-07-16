@@ -1,6 +1,6 @@
 using BytLabs.Domain.ValueObjects;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Common.DynamicData
+namespace BytLabs.Domain.DynamicData
 {
     // RECIPE: Composite value object describing a dynamic table view (columns/filter/details).
     public class TableDataSchema : ValueObject

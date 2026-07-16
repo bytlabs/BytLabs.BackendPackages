@@ -1,6 +1,6 @@
 using BytLabs.Domain.Entities;
 
-namespace BytLabs.DataAccess;
+namespace BytLabs.DataAccess.EntityFramework;
 
 /// <summary>
 /// Read-side <see cref="IQueryable{T}"/> helpers. Mirrors the MongoDB GraphQL

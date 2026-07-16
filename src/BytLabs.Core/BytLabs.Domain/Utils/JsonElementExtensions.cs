@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Common.Utils
+namespace BytLabs.Domain.Utils
 {
     // RECIPE: Dynamic data merge. Shallow-merges element2 INTO element1 (element2 keys win),
     // so an Update can carry only the changed keys of the dynamic `Data` payload.
@@ -9,8 +9,8 @@ namespace BytLabs.MicroserviceTemplate.Domain.Common.Utils
     {
         public static JsonElement Merge(this JsonElement element1, JsonElement element2)
         {
-            var node1 = JsonObject.Parse(element1.GetRawText()) as JsonObject;
-            var node2 = JsonObject.Parse(element2.GetRawText()) as JsonObject;
+            var node1 = JsonNode.Parse(element1.GetRawText()) as JsonObject;
+            var node2 = JsonNode.Parse(element2.GetRawText()) as JsonObject;
 
             if (node1 is null) throw new NotImplementedException();
             if (node2 is null) return element1;

@@ -1,7 +1,7 @@
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace BytLabs.MicroserviceTemplate.Infrastructure.MongoDB
+namespace BytLabs.DataAccess.MongoDB
 {
     // RECIPE: Custom BSON serializer so IReadOnlySet<T> round-trips as a BSON array.
     public class IReadOnlySetSerializer<T> : SerializerBase<IReadOnlySet<T>>
