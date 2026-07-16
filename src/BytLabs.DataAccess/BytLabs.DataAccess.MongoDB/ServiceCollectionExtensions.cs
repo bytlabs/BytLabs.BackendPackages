@@ -5,6 +5,8 @@ using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.Domain.Audit;
 using BytLabs.Domain.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
+using BytLabs.MicroserviceTemplate.Infrastructure.MongoDB;
 using BytLabs.Multitenancy;
 using GuardClauses;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,8 @@ namespace BytLabs.DataAccess.MongoDB
             }
 
             RegisterBaseEntityMongoClassMap();
+
+            RegisterDynamicDataClassMaps();
 
             RegisterDynamicDataSerializer();
 
@@ -133,6 +137,37 @@ namespace BytLabs.DataAccess.MongoDB
                 cm.AutoMap();
                 cm.MapIdMember(c => c.Id)
                     .SetSerializer(guidSerializer);
+            });
+        }
+
+        private static void RegisterDynamicDataClassMaps()
+        {
+            BsonClassMap.TryRegisterClassMap<FormDataSchema>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapMember(c => c.Key).SetDefaultValue(() => string.Empty);
+                cm.MapMember(c => c.SampleData).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapMember(c => c.FormSchema).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapMember(c => c.FormUi).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapCreator(value => new FormDataSchema(value.Key, value.SampleData, value.FormSchema, value.FormUi));
+            });
+
+            BsonClassMap.TryRegisterClassMap<TableDataSchema>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapMember(c => c.Columns).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapMember(c => c.Filter).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapMember(c => c.SampleData).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapMember(c => c.Details).SetDefaultValue(() => new DataSchema(string.Empty, string.Empty));
+                cm.MapCreator(value => new TableDataSchema(value.SampleData, value.Columns, value.Filter, value.Details));
+            });
+
+            BsonClassMap.TryRegisterClassMap<DataSchema>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapMember(c => c.Type).SetDefaultValue(() => string.Empty);
+                cm.MapMember(c => c.Data).SetDefaultValue(() => string.Empty);
+                cm.MapCreator(value => new DataSchema(value.Type, value.Data));
             });
         }
 

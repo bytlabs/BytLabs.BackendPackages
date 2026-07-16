@@ -6,12 +6,7 @@ using MongoDB.Driver;
 namespace BytLabs.DataAccess.MongoDB.DynamicData;
 
 public static class IAggregateFluentExtensions
-{
-    public static IAggregateFluent<T> ExcludeSoftDeletedEntites<T>(this IAggregateFluent<T> aggregateFluent)
-        where T : ISoftDeletable
-    {
-        return aggregateFluent.Match(Builders<T>.Filter.Ne(entity => entity.IsDeleted, true));
-    }
+{   
 
     public static IAggregateFluent<T> ApplyDynamicDataFilteration<T>(this IAggregateFluent<T> aggregateFluent, InputFilteringDynamicData dataFilter)
         where T : IHaveDynamicData
