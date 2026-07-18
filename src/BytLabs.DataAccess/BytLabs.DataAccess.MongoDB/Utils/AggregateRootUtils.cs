@@ -1,6 +1,6 @@
 ﻿using BytLabs.Domain.Entities;
 
-namespace BytLabs.DataAccess.MongoDB;
+namespace BytLabs.DataAccess.MongoDB.Utils;
 
 public static class AggregateRootUtils
 {

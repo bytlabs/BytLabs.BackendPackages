@@ -1,5 +1,5 @@
-﻿using BytLabs.DataAccess.MongoDB;
-using BytLabs.DataAccess.MongoDB.Test.OrdersService.Domain;
+﻿using BytLabs.DataAccess.MongoDB.Test.OrdersService.Domain;
+using BytLabs.DataAccess.MongoDB.Utils;
 using FluentAssertions;
 
 namespace BytLabs.DataAccess.MongoDB.Test
