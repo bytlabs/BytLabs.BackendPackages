@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using System.Globalization;
 
-namespace BytLabs.DataAccess.MongoDB.DynamicData
+namespace BytLabs.DataAccess.MongoDB.DynamicData.Serializer
 {
     public static class BsonDocumentExtensions
     {

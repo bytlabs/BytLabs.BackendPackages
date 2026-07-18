@@ -5,7 +5,7 @@ using MongoDB.Bson;
 using System.Globalization;
 using MongoDB.Bson.IO;
 
-namespace BytLabs.DataAccess.MongoDB.DynamicData
+namespace BytLabs.DataAccess.MongoDB.DynamicData.Serializer
 {
     public class JsonElementSerializer : SerializerBase<JsonElement>
     {
