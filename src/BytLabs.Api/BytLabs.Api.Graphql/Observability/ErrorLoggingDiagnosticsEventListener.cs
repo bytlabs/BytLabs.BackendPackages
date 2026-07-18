@@ -50,28 +50,20 @@ namespace BytLabs.Api.Graphql.Observability
         /// <param name="context">The request context containing information about the current request.</param>
         /// <param name="exception">The exception that occurred during request processing.</param>
         public override void RequestError(
-            IRequestContext context,
+            RequestContext context,
             Exception exception) =>
             _log.LogError(exception, "RequestError: {ErrorMessage}", exception.Message);
+
 
         /// <summary>
         /// Logs errors that occur during subscription event processing.
         /// </summary>
-        /// <param name="context">The subscription event context containing information about the current event.</param>
-        /// <param name="exception">The exception that occurred during event processing.</param>
-        public override void SubscriptionEventError(
-            SubscriptionEventContext context,
-            Exception exception) =>
+        /// <param name="context"></param>
+        /// <param name="subscriptionId"></param>
+        /// <param name="exception"></param>        
+        public override void SubscriptionEventError(RequestContext context, ulong subscriptionId, Exception exception)
+        {
             _log.LogError(exception, "SubscriptionEventError: {ErrorMessage}", exception.Message);
-
-        /// <summary>
-        /// Logs errors that occur in the subscription transport layer.
-        /// </summary>
-        /// <param name="subscription">The subscription information.</param>
-        /// <param name="exception">The exception that occurred in the transport layer.</param>
-        public override void SubscriptionTransportError(
-            ISubscription subscription,
-            Exception exception) =>
-            _log.LogError(exception, "SubscriptionTransportError: {ErrorMessage}", exception.Message);
+        }
     }
 }
