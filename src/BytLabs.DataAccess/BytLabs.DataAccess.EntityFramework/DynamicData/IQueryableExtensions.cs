@@ -3,7 +3,7 @@ using System.Text.Json;
 using BytLabs.Application.DynamicData;
 using BytLabs.Domain.DynamicData;
 
-namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.DynamicData;
+namespace BytLabs.DataAccess.EntityFramework.DynamicData;
 
 /// <summary>
 /// Dynamic-data (jsonb) <b>sorting</b> for the EF/PostgreSQL query path. Npgsql translates
@@ -35,8 +35,8 @@ public static class IQueryableExtensions
             var lambda = Expression.Lambda(key, param);
             var ascending = sort.By == SortOrder.Asc;
             var method = first
-                ? (ascending ? "OrderBy" : "OrderByDescending")
-                : (ascending ? "ThenBy" : "ThenByDescending");
+                ? ascending ? "OrderBy" : "OrderByDescending"
+                : ascending ? "ThenBy" : "ThenByDescending";
             q = q.Provider.CreateQuery<T>(Expression.Call(
                 typeof(Queryable), method, new[] { typeof(T), key.Type }, q.Expression, Expression.Quote(lambda)));
             first = false;
