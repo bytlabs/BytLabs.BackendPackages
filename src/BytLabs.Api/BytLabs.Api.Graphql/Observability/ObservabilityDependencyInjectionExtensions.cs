@@ -1,5 +1,6 @@
 ﻿using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BytLabs.Api.Graphql.Observability
 {
@@ -21,6 +22,10 @@ namespace BytLabs.Api.Graphql.Observability
         internal static IRequestExecutorBuilder AddObservability(this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
+                // HotChocolate v16 activates diagnostic listeners from the schema service provider, which
+                // does not expose application services (e.g. ILogger) by default. Bridge the logger the
+                // listener needs so it can be constructed. See the v15→v16 "Service Provider Separation".
+                .AddApplicationService<ILogger<ErrorLoggingDiagnosticsEventListener>>()
                 .AddDiagnosticEventListener<ErrorLoggingDiagnosticsEventListener>()
                 .AddErrorFilter<GlobalErrorFilter>();
         }
