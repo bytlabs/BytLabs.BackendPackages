@@ -1,7 +1,7 @@
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.CQS.Queries;
 
-namespace BytLabs.Api.Graphql.ErrorTypes.Validation
+namespace BytLabs.Hotchocolate.ErrorTypes.Validation
 {
     /// <summary>
     /// Represents validation errors that occur during request processing.

@@ -1,7 +1,6 @@
-﻿
-using BytLabs.Application.DynamicData;
+﻿using BytLabs.Application.DynamicData;
 
-namespace BytLabs.Api.Graphql.InputTypes
+namespace BytLabs.Hotchocolate.InputTypes
 {
     public class DataOperationFilterInputType : InputObjectType<DataOperationFilter>
     {

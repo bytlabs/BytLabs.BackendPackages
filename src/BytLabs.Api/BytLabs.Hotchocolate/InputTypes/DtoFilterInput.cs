@@ -1,17 +1,16 @@
 ﻿using BytLabs.Domain.DynamicData;
-using BytLabs.Domain.Entities;
 using HotChocolate.Data.Filters;
 
-namespace BytLabs.Api.Graphql.InputTypes
+namespace BytLabs.Hotchocolate.InputTypes
 {
-    public class AggregateFilterInput<TAggregate, TId> : FilterInputType<TAggregate> where TAggregate : IAggregateRoot<TId>
+    public class DtoFilterInput<TDto> : FilterInputType<TDto> where TDto : class
     {
-        protected override void Configure(IFilterInputTypeDescriptor<TAggregate> descriptor)
+        protected override void Configure(IFilterInputTypeDescriptor<TDto> descriptor)
         {
             descriptor.BindFieldsImplicitly();
-            descriptor.Field(field => field.DomainEvents).Ignore();
+            descriptor.Name($"{typeof(TDto).Name.Replace("Dto", "")}FilterInput");
 
-            if(CheckIfImplementsInterface<TAggregate, IHaveDynamicData>())
+            if (CheckIfImplementsInterface<TDto, IHaveDynamicData>())
             {
                 descriptor.Field(nameof(IHaveDynamicData.Data).ToLower())
                     .Type<DataOperationFilterInputType>()

@@ -1,4 +1,4 @@
-namespace BytLabs.Api.Graphql.ErrorTypes.Validation
+namespace BytLabs.Hotchocolate.ErrorTypes.Validation
 {
     public class FieldError
     {
