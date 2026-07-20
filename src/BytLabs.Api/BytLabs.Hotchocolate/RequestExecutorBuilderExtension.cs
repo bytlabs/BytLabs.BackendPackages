@@ -18,6 +18,13 @@ namespace BytLabs.Hotchocolate
                 .AddType<DtoFilterInput<TDto>>();
         }
 
+        public static IRequestExecutorBuilder AddDtoDynamicSortInputType<TDto>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TDto : class
+        {
+            return requestExecutorBuilder
+                .AddType<DtoDynamicSortInput<TDto>>();
+        }
+
         public static IRequestExecutorBuilder AddDtoSortType<TDto>(this IRequestExecutorBuilder requestExecutorBuilder)
             where TDto : class
         {
@@ -72,16 +79,10 @@ namespace BytLabs.Hotchocolate
         /// <remarks>
         /// This method registers a DTO type using the <see cref="DtoType{T}"/> wrapper to expose it in the GraphQL schema.
         /// </remarks>
-        public static IRequestExecutorBuilder AddDtoType<T>(this IRequestExecutorBuilder requestExecutorBuilder, bool includeFilters = true) where T : class
+        public static IRequestExecutorBuilder AddDtoType<T>(this IRequestExecutorBuilder requestExecutorBuilder) where T : class
         {
             var builder = requestExecutorBuilder
-                .AddType<DtoType<T>>();
-            if (includeFilters)
-            {
-                builder = builder
-                    .AddType<DtoFilterInput<T>>()
-                    .AddType<DtoSortInput<T>>();
-            }
+                .AddType<DtoType<T>>();           
             return builder;
         }
     }
