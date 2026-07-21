@@ -5,7 +5,7 @@ using HotChocolate.Execution.Processing;
 using HotChocolate.Resolvers;
 using Microsoft.Extensions.Logging;
 
-namespace BytLabs.Api.Graphql.Observability
+namespace BytLabs.Hotchocolate.Observability
 {
     /// <summary>
     /// Diagnostic event listener for logging GraphQL execution errors.
@@ -32,7 +32,7 @@ namespace BytLabs.Api.Graphql.Observability
         /// <param name="error">The error that occurred during resolution.</param>
         public override void ResolverError(IMiddlewareContext context, IError error) =>
             _log.LogError(error.Exception, "A resolver error occured: {Error}. Context path:{Path}, error path: {ErrorPath}",
-                          (object)error.Message, (object)context.Path, (object?)error.Path);
+                          error.Message, context.Path, error.Path);
 
         /// <summary>
         /// Logs errors that occur during task execution.

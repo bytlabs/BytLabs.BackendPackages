@@ -1,19 +1,38 @@
-using BytLabs.Api.Graphql.ErrorTypes.Business;
-using BytLabs.Api.Graphql.ErrorTypes.Validation;
-using BytLabs.Api.Graphql.InputTypes;
-using BytLabs.Api.Graphql.ObjectTypes;
 using BytLabs.Domain.Entities;
+using BytLabs.Hotchocolate.InputTypes;
+using BytLabs.Hotchocolate.ObjectTypes;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.RegularExpressions;
 
-namespace BytLabs.Api.Graphql
+namespace BytLabs.Hotchocolate
 {
     /// <summary>
     /// Provides extension methods for configuring the GraphQL request executor builder.
     /// </summary>
     public static class RequestExecutorBuilderExtension
     {
+        public static IRequestExecutorBuilder AddDtoFilterType<TDto>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TDto : class
+        {
+            return requestExecutorBuilder
+                .AddType<DtoFilterInput<TDto>>();
+        }
+
+        public static IRequestExecutorBuilder AddDtoDynamicSortType<TDto>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TDto : class
+        {
+            return requestExecutorBuilder
+                .AddType<DtoDynamicSortInput<TDto>>();
+        }
+
+        public static IRequestExecutorBuilder AddDtoSortType<TDto>(this IRequestExecutorBuilder requestExecutorBuilder)
+            where TDto : class
+        {
+            return requestExecutorBuilder
+                .AddType<DtoSortInput<TDto>>();
+        }
+
+
         public static IRequestExecutorBuilder AddAggregateFilterType<TAggregate, TId>(this IRequestExecutorBuilder requestExecutorBuilder)
             where TAggregate : IAggregateRoot<TId>
         {
@@ -60,11 +79,33 @@ namespace BytLabs.Api.Graphql
         /// <remarks>
         /// This method registers a DTO type using the <see cref="DtoType{T}"/> wrapper to expose it in the GraphQL schema.
         /// </remarks>
-        public static IRequestExecutorBuilder AddDtoType<T>(this IRequestExecutorBuilder requestExecutorBuilder)
+        public static IRequestExecutorBuilder AddDtoType<T>(this IRequestExecutorBuilder requestExecutorBuilder,
+            bool inlcudeFilterInputType = true,
+            bool includeSortInputType = true,
+            bool isDynamicSorting = false) where T : class
         {
-            return requestExecutorBuilder
+            var builder = requestExecutorBuilder
                 .AddType<DtoType<T>>();
-        }
+            
+            if(inlcudeFilterInputType)
+            {
+                builder.AddDtoFilterType<T>();
+            }
 
+            if(includeSortInputType)
+            {
+                if (isDynamicSorting)
+                {
+                    builder.AddDtoDynamicSortType<T>();
+                }
+                else
+                {
+                    builder.AddDtoSortType<T>();
+                }
+            }
+
+
+            return builder;
+        }
     }
 }
