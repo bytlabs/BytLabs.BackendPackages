@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.DataAccess</PackageId>
+    <Description>Provider-agnostic unit-of-work, command transactions, and domain-event dispatch for BytLabs repositories.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

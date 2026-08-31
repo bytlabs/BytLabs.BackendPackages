@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Observability</PackageId>
+    <Description>Serilog and OpenTelemetry logging, metrics, tracing and health checks preconfigured for BytLabs services.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

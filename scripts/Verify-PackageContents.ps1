@@ -50,3 +50,4 @@ if ($failures) {
     exit 1
 }
 Write-Host "OK: all $($nupkgs.Count) packages ship XML documentation and a markdown reference."
+exit 0

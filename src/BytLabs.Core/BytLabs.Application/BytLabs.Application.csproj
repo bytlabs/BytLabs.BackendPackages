@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Application</PackageId>
+    <Description>CQRS on MediatR with FluentValidation and logging pipelines, repository and unit-of-work abstractions, and user context.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 	

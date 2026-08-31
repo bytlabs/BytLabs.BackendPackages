@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Api.Graphql</PackageId>
+    <Description>HotChocolate GraphQL server setup with BytLabs conventions: mutation conventions, typed errors, authorization, and dynamic-data filter inputs.</Description>
 	<HotChocolatePackageVersion>16.3.0</HotChocolatePackageVersion>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Multitenancy</PackageId>
+    <Description>Request-scoped tenant resolution and database-per-tenant isolation for BytLabs services.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

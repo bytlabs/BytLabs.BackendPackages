@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Domain</PackageId>
+    <Description>DDD building blocks: entities, aggregate roots, value objects, domain events, business rules, audit and soft-delete.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

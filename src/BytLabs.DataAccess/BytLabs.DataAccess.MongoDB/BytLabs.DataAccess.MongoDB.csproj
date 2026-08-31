@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.DataAccess.MongoDB</PackageId>
+    <Description>MongoDB repository and unit-of-work for BytLabs, with database-per-tenant, BSON conventions and dynamic-data queries.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

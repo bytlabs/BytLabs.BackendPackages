@@ -4,6 +4,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+    <PackageId>BytLabs.Api</PackageId>
+    <Description>Fluent ASP.NET Core host builder wiring BytLabs context, tenancy, logging, metrics, tracing and health checks in a compiler-enforced order.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	
