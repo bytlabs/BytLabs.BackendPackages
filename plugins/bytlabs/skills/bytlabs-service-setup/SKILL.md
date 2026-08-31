@@ -63,8 +63,7 @@ var app = ApiServiceBuilder.CreateBuilder(builder)
     {
         services.AddInfrastructure(builder.Configuration);   // your DI (below)
         services.AddGraphQLService()
-            .AddMongoDbQuerySettings()
-            .AddCommandTypes().AddDtoTypes()
+            .AddDynamicDataTypes()
             .AddMutationType<Mutation>().AddQueryType<Query>();
     })
     .BuildWebApp(app => { app.UseAuthentication(); app.UseAuthorization(); app.MapGraphQL(); });
@@ -73,6 +72,12 @@ app.Run();
 ```
 
 All your own middleware and endpoint mapping goes inside the `BuildWebApp` delegate.
+
+> **Careful with the README's quick tour.** It chains `AddMongoDbQuerySettings()`,
+> `AddCommandTypes()` and `AddDtoTypes()`, which are **not** package methods — they are
+> consumer-side grouping helpers from the service template that wrap repeated
+> `AddCommandType<T>()` / `AddDtoType<T>()` calls. Calling them in a service that has not defined
+> them will not compile. See `bytlabs-graphql` for the real package surface.
 
 ## Infrastructure registration
 
