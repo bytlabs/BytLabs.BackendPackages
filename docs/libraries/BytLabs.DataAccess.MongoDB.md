@@ -21,8 +21,7 @@ resolution, BSON class-map/serializer setup, dynamic-data query helpers, and hea
 | `MongoDatabaseConfiguration` | `DatabaseName`, `ConnectionString` (+ inherited `UseTransactions`, `IgnoreDatabaseNamingConvention`) |
 | `IMongoDatabase.GetCollection<T>()` (extension) | Gets the collection using the conventional name for `T` |
 | `MongoDatabaseFactory` / `MongoDatabaseHelper` | Resolve `"{baseName}-{tenantId}"` database per tenant; collection naming |
-| `IAggregateFluentExtensions` | `ExcludeSoftDeletedEntites()`, `ApplyDynamicDataFilteration(filter)`, `AppySortingWithDynamicData(order)` |
-| `FilterDefinitionBuilderExtensions` | `FilterData(...)` / `FilterDataField(...)` translate dynamic-data filters to Mongo filters |
+| `IAggregateFluentExtensions` | `ExcludeSoftDeletedEntites()`, `AppySortingWithDynamicData(order)` (both spellings are as written) |
 | `JsonElementSerializer`, `MongoDbConventions` | Store `JsonElement` natively; camelCase + naming conventions |
 
 ## Registration
@@ -96,15 +95,18 @@ On a Mongo aggregate pipeline (for `IHaveDynamicData` + `ISoftDeletable` aggrega
 db.GetCollection<Product>()
   .Aggregate()
   .ExcludeSoftDeletedEntites()                  // filters IsDeleted == true
-  .ApplyDynamicDataFilteration(dynamicFilter)   // filters over the JSON `data` field
   .AppySortingWithDynamicData(order)            // sort, incl. dynamic-data paths
   .Project(Builders<Product>.Projection.As<ProductDto>())
   .AsExecutable();
 ```
 
-`FilterData`/`FilterDataField` map a `InputFilteringDynamicData` (And/Or/operation tree) onto
-`data.<path>` with operators `Eq/Ne/Gt/Lt/Lte/Gte/Contains`, typed via `ValueKind`
-(Number/String/Boolean/DateTime).
+Both method names are spelled as shown — `Entites` and `Appy` are the actual identifiers.
+
+> **Dynamic-data *filtering* is not implemented for MongoDB.** This package provides dynamic-data
+> **sorting** only. The filter input types (`InputFilteringDynamicData`, `DataOperationFilter`,
+> `FilterOperation`, `ValueKind`) exist in `BytLabs.Application` and are exposed through GraphQL by
+> [BytLabs.Api.Graphql](BytLabs.Api.Graphql.md), but no Mongo translation layer consumes them.
+> Apply such filters in your own query code.
 
 ### Multitenancy
 
