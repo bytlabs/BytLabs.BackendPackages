@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace BytLabs.Hotchocolate.Observability
+namespace BytLabs.Api.Graphql.Observability
 {
     /// <summary>
     /// Provides extension methods for configuring observability features in the GraphQL pipeline.

@@ -1,10 +1,10 @@
 using BytLabs.Domain.Entities;
-using BytLabs.Hotchocolate.InputTypes;
-using BytLabs.Hotchocolate.ObjectTypes;
+using BytLabs.Api.Graphql.InputTypes;
+using BytLabs.Api.Graphql.ObjectTypes;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BytLabs.Hotchocolate
+namespace BytLabs.Api.Graphql
 {
     /// <summary>
     /// Provides extension methods for configuring the GraphQL request executor builder.

@@ -1,7 +1,7 @@
 using HotChocolate;
 using HotChocolate.Execution;
 
-namespace BytLabs.Hotchocolate.Observability
+namespace BytLabs.Api.Graphql.Observability
 {
     /// <summary>
     /// Global error filter for handling GraphQL errors.

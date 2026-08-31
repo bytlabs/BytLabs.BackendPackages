@@ -10,7 +10,10 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<!-- The package's own reference, so a consuming agent can read it from the
+		     NuGet cache at the exact version installed. -->
+		<None Include="..\..\..\docs\libraries\BytLabs.Api.md" Pack="true" PackagePath="docs\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using BytLabs.Application.DynamicData;
 using BytLabs.Domain.Entities;
 
-namespace BytLabs.Hotchocolate.InputTypes
+namespace BytLabs.Api.Graphql.InputTypes
 {
     public class AggregateSortInput<TAggregate, TId> : InputObjectType<SortInput<TAggregate>> where TAggregate : IAggregateRoot<TId>
     {

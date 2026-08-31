@@ -1,10 +1,10 @@
-using BytLabs.Hotchocolate;
-using BytLabs.Hotchocolate.InputTypes;
-using BytLabs.Hotchocolate.Observability;
+using BytLabs.Api.Graphql;
+using BytLabs.Api.Graphql.InputTypes;
+using BytLabs.Api.Graphql.Observability;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BytLabs.Hotchocolate
+namespace BytLabs.Api.Graphql
 {
     public static class ServiceExtensions
     {

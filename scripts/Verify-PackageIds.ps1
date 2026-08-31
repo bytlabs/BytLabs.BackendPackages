@@ -4,7 +4,7 @@
 #
 # This has already happened twice:
 #   BytLabs.DataAccess.MongDB  -> BytLabs.DataAccess.MongoDB  at 1.2.0
-#   BytLabs.Api.Graphql        -> BytLabs.Hotchocolate        at 5.2.0-alpha.123
+#   BytLabs.Api.Graphql        -> BytLabs.Hotchocolate        at 5.2.0-alpha.123 (reverted)
 $ErrorActionPreference = 'Stop'
 
 $expected = @{
@@ -14,7 +14,7 @@ $expected = @{
     'src/BytLabs.DataAccess/BytLabs.DataAccess.MongoDB/BytLabs.DataAccess.MongoDB.csproj'                 = 'BytLabs.DataAccess.MongoDB'
     'src/BytLabs.DataAccess/BytLabs.DataAccess.EntityFramework/BytLabs.DataAccess.EntityFramework.csproj' = 'BytLabs.DataAccess.EntityFramework'
     'src/BytLabs.Api/BytLabs.Api/BytLabs.Api.csproj'                                                      = 'BytLabs.Api'
-    'src/BytLabs.Api/BytLabs.Hotchocolate/BytLabs.Hotchocolate.csproj'                                    = 'BytLabs.Api.Graphql'
+    'src/BytLabs.Api/BytLabs.Api.Graphql/BytLabs.Api.Graphql.csproj'                                    = 'BytLabs.Api.Graphql'
     'src/BytLabs.Multitenancy/BytLabs.Multitenancy/BytLabs.Multitenancy.csproj'                           = 'BytLabs.Multitenancy'
     'src/BytLabs.Observability/BytLabs.Observability/BytLabs.Observability.csproj'                        = 'BytLabs.Observability'
     'src/BytLabs.States/BytLabs.States.Domain/BytLabs.States.Domain.csproj'                               = 'BytLabs.States.Domain'

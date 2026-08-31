@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytLabs.DataAccess.EntityFr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytLabs.DataAccess.EntityFramework.Test", "src\BytLabs.DataAccess\BytLabs.DataAccess.EntityFramework.Test\BytLabs.DataAccess.EntityFramework.Test.csproj", "{ED4E2174-DC5F-4E72-A376-7A55CE9C5F24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytLabs.Hotchocolate", "src\BytLabs.Api\BytLabs.Hotchocolate\BytLabs.Hotchocolate.csproj", "{707B9EF2-7340-D8CD-0D39-788FFD953125}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BytLabs.Api.Graphql", "src\BytLabs.Api\BytLabs.Api.Graphql\BytLabs.Api.Graphql.csproj", "{707B9EF2-7340-D8CD-0D39-788FFD953125}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

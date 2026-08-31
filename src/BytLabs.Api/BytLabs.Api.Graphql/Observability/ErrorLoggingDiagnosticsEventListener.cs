@@ -5,7 +5,7 @@ using HotChocolate.Execution.Processing;
 using HotChocolate.Resolvers;
 using Microsoft.Extensions.Logging;
 
-namespace BytLabs.Hotchocolate.Observability
+namespace BytLabs.Api.Graphql.Observability
 {
     /// <summary>
     /// Diagnostic event listener for logging GraphQL execution errors.

@@ -1,7 +1,7 @@
 ﻿using BytLabs.Application.DynamicData;
 using HotChocolate.Data.Sorting;
 
-namespace BytLabs.Hotchocolate.InputTypes
+namespace BytLabs.Api.Graphql.InputTypes
 {
     public class DtoDynamicSortInput<TDto> : InputObjectType<SortInput<TDto>> where TDto : class
     {

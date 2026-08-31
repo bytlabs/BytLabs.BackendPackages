@@ -1,4 +1,4 @@
-using BytLabs.Hotchocolate;
+using BytLabs.Api.Graphql;
 using HotChocolate.Execution;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
