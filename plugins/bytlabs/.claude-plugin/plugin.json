@@ -1,0 +1,11 @@
+{
+  "name": "bytlabs",
+  "description": "Build .NET microservices on the BytLabs backend packages: DDD aggregates, CQRS, MongoDB/EF persistence, multitenancy, GraphQL, and observability.",
+  "version": "5.2.0",
+  "author": { "name": "BytLabs" },
+  "homepage": "https://github.com/BytLabs/BytLabs.BackendPackages",
+  "repository": "https://github.com/BytLabs/BytLabs.BackendPackages",
+  "license": "MIT",
+  "keywords": ["dotnet", "ddd", "cqrs", "graphql", "mongodb", "multitenancy"],
+  "experimental": { "evals": "evals" }
+}

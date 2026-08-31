@@ -4,7 +4,17 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>BytLabs.States.Domain</PackageId>
+    <Description>State-machine aggregates for BytLabs domains, with rule-guarded transitions evaluated by RulesEngine.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+    <!-- The package's own reference, so a consuming agent can read it from the
+         NuGet cache at the exact version installed. -->
+    <None Include="..\..\..\docs\libraries\BytLabs.States.Domain.md" Pack="true" PackagePath="docs\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="RulesEngine" Version="5.0.3" />

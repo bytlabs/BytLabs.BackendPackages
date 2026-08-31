@@ -4,11 +4,16 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+    <PackageId>BytLabs.Api</PackageId>
+    <Description>Fluent ASP.NET Core host builder wiring BytLabs context, tenancy, logging, metrics, tracing and health checks in a compiler-enforced order.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
+		<!-- The package's own reference, so a consuming agent can read it from the
+		     NuGet cache at the exact version installed. -->
+		<None Include="..\..\..\docs\libraries\BytLabs.Api.md" Pack="true" PackagePath="docs\" />
 	</ItemGroup>
 
 	<ItemGroup>

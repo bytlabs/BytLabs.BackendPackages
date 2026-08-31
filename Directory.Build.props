@@ -1,5 +1,22 @@
 <Project>
   <PropertyGroup>
     <Version>5.2.0</Version>
+
+    <!-- Ship the API surface to consumers. The source already carries the
+         doc comments; without this they are discarded at build time and an
+         agent in a consuming repo can only decompile the DLL or guess. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS1591 = missing XML comment on a public member. Suppressed because
+         this change ships the comments that exist; it does not mandate full
+         coverage. Remove this to ratchet coverage later. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <Authors>BytLabs</Authors>
+    <Company>BytLabs</Company>
+    <PackageProjectUrl>https://github.com/BytLabs/BytLabs.BackendPackages</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BytLabs/BytLabs.BackendPackages</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>ddd;cqrs;multitenancy;graphql;mongodb;opentelemetry;microservices</PackageTags>
   </PropertyGroup>
 </Project>

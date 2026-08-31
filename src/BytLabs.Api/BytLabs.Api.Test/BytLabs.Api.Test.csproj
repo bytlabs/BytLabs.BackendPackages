@@ -19,7 +19,7 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\BytLabs.Api\BytLabs.Api.csproj" />
-	  <ProjectReference Include="..\BytLabs.Hotchocolate\BytLabs.Hotchocolate.csproj" />
+	  <ProjectReference Include="..\BytLabs.Api.Graphql\BytLabs.Api.Graphql.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

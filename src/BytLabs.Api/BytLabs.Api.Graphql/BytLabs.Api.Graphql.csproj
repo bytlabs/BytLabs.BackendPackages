@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>BytLabs.Api.Graphql</PackageId>
+    <Description>HotChocolate GraphQL server setup with BytLabs conventions: mutation conventions, typed errors, authorization, and dynamic-data filter inputs.</Description>
+	<HotChocolatePackageVersion>16.3.0</HotChocolatePackageVersion>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+		<!-- The package's own reference, so a consuming agent can read it from the
+		     NuGet cache at the exact version installed. -->
+		<None Include="..\..\..\docs\libraries\BytLabs.Api.Graphql.md" Pack="true" PackagePath="docs\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HotChocolate.AspNetCore" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Data" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Types.Analyzers" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="HotChocolate.Types.Mutations" Version="$(HotChocolatePackageVersion)" />
+		<PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="7.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\BytLabs.Core\BytLabs.Application\BytLabs.Application.csproj" />
+	</ItemGroup>
+
+</Project>

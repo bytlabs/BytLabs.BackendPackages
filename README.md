@@ -132,6 +132,26 @@ Packages are versioned together. With central package management (`Directory.Pac
 </ItemGroup>
 ```
 
+### Working with AI agents
+
+Install the BytLabs plugin so Claude Code knows these packages:
+
+```
+/plugin marketplace add BytLabs/BytLabs.BackendPackages
+/plugin install bytlabs
+```
+
+It adds skills for service setup, domain modelling, CQRS, data access, GraphQL and cross-cutting
+concerns, and looks up exact API signatures from the package version your service actually
+references.
+
+That last part works because every package ships its own documentation: from **5.2.0** each
+`.nupkg` contains `lib/net8.0/<Package>.xml` (the full public API with doc comments) and
+`docs/<Package>.md` (this repo's reference for that package). Any agent can read them straight
+out of `~/.nuget/packages/` — no decompiling, and always the version you have installed.
+
+---
+
 ## Quick tour
 
 **1. Host (`Program.cs`)** — one fluent chain wires the standard concerns:
@@ -147,8 +167,8 @@ var app = ApiServiceBuilder.CreateBuilder(builder)
     {
         services.AddInfrastructure(builder.Configuration);   // your DI (below)
         services.AddGraphQLService()
-            .AddMongoDbQuerySettings()
-            .AddCommandTypes().AddDtoTypes()
+            .AddMongoDbQuerySettings()          // your helper, not a package method
+            .AddCommandTypes().AddDtoTypes()    // your helpers wrapping AddCommandType<T>/AddDtoType<T>
             .AddMutationType<Mutation>().AddQueryType<Query>();
     })
     .BuildWebApp(app => { app.UseAuthentication(); app.UseAuthorization(); app.MapGraphQL(); });

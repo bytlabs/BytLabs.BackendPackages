@@ -1,0 +1,12 @@
+{
+  "name": "bytlabs",
+  "owner": { "name": "BytLabs" },
+  "description": "Skills for building .NET microservices on the BytLabs backend packages.",
+  "plugins": [
+    {
+      "name": "bytlabs",
+      "source": "./plugins/bytlabs",
+      "description": "Build .NET microservices on the BytLabs backend packages: DDD aggregates, CQRS, MongoDB/EF persistence, multitenancy, GraphQL, and observability."
+    }
+  ]
+}
