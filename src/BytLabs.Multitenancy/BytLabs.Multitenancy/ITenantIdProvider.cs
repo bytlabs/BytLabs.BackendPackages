@@ -11,7 +11,7 @@ namespace BytLabs.Multitenancy
         /// Gets the current tenant identifier.
         /// </summary>
         /// <returns>The current tenant identifier.</returns>
-        /// <exception cref="FailedToResolveTenantId">Thrown when tenant ID cannot be resolved.</exception>
+        /// <exception cref="Exceptions.FailedToResolveTenantIdException">Thrown when tenant ID cannot be resolved.</exception>
         TenantId GetTenantId();
     }
 }

@@ -20,3 +20,15 @@ jobs:
 
       - name: Run tests
         run: dotnet test ./BytLabs.BackendPackages.sln --configuration Release --no-restore
+
+      # Guards against a project rename silently changing a published package ID,
+      # which has happened twice (MongDB -> MongoDB, Api.Graphql -> Hotchocolate).
+      - name: Verify package IDs are pinned
+        shell: pwsh
+        run: ./scripts/Verify-PackageIds.ps1
+
+      # Guards against a package shipping without the API documentation that
+      # consuming agents and IntelliSense rely on.
+      - name: Verify packages ship API documentation
+        shell: pwsh
+        run: ./scripts/Verify-PackageContents.ps1
