@@ -237,6 +237,20 @@ The `BytLabs.MicroserviceTemplate` includes ready-to-copy examples of both.
 
 ---
 
+## Working with AI agents
+
+```
+/plugin marketplace add BytLabs/BytLabs.BackendPackages
+/plugin install bytlabs
+```
+
+Adds Claude Code skills for service setup, domain modelling, CQRS, data access, GraphQL and
+cross-cutting concerns. From **5.2.0** every package also ships `lib/net8.0/<Package>.xml` and
+`docs/<Package>.md` inside the `.nupkg`, so an agent reads the real API for the version you have
+installed instead of guessing.
+
+---
+
 ## Next steps
 
 - Browse the [Library Reference](libraries/index.md) for the full API of every package.
