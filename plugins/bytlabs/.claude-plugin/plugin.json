@@ -6,5 +6,6 @@
   "homepage": "https://github.com/BytLabs/BytLabs.BackendPackages",
   "repository": "https://github.com/BytLabs/BytLabs.BackendPackages",
   "license": "MIT",
-  "keywords": ["dotnet", "ddd", "cqrs", "graphql", "mongodb", "multitenancy"]
+  "keywords": ["dotnet", "ddd", "cqrs", "graphql", "mongodb", "multitenancy"],
+  "experimental": { "evals": "evals" }
 }
