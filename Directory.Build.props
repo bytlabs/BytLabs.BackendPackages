@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>5.2.0</Version>
+    <Version>5.3.0</Version>
 
     <!-- Ship the API surface to consumers. The source already carries the
          doc comments; without this they are discarded at build time and an
